@@ -3,300 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>College Ranker 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>CampusRank — College Decision Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07090f;
-    --surface: #0e1221;
-    --surface2: #151929;
-    --border: #1e2640;
-    --accent: #4f8ef7;
-    --accent2: #34d399;
-    --accent3: #f59e0b;
-    --danger: #f43f5e;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --muted2: #94a3b8;
+    --bg: #f5f4f1;
+    --surface: #ffffff;
+    --surface2: #f2f0eb;
+    --border: #ccc8be;
+    --border2: #b5b0a6;
+    --accent: #1a3a6b;
+    --accent-light: #2563eb;
+    --accent2: #0f7560;
+    --accent3: #b45309;
+    --danger: #dc2626;
+    --text: #1a1814;
+    --muted: #6b6760;
+    --muted2: #9b9690;
+    --gold: #c9a84c;
+    --shadow: 0 1px 3px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 4px 6px rgba(0,0,0,0.10), 0 12px 32px rgba(0,0,0,0.10);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
   /* HEADER */
   .header {
-    background: linear-gradient(135deg, #0e1221 0%, #0a1628 50%, #0e1221 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 28px 32px 20px;
+    background: var(--accent);
+    border-bottom: none;
+    padding: 0 32px;
     position: sticky; top: 0; z-index: 100;
-    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px rgba(26,58,107,0.18);
   }
-  .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .header h1 { font-family: 'DM Serif Display', serif; font-size: clamp(18px, 3vw, 28px); letter-spacing: -0.5px; }
-  .header h1 span { color: var(--accent); }
-  .header-sub { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 4px; }
+  .header-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 14px 0;
+  }
+  .header-brand { display: flex; align-items: baseline; gap: 10px; }
+  .header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(20px, 2.5vw, 26px);
+    letter-spacing: -0.3px; color: #fff; font-weight: 700;
+  }
+  .header h1 .brand-dot { color: var(--gold); }
+  .header-sub {
+    font-size: 11px; color: rgba(255,255,255,0.55);
+    font-family: 'JetBrains Mono', monospace; margin-top: 3px;
+    letter-spacing: 0.3px;
+  }
   .tabs { display: flex; gap: 4px; }
   .tab {
-    padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border);
-    background: transparent; color: var(--muted2); font-family: 'Outfit', sans-serif;
-    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+    padding: 7px 18px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent; color: rgba(255,255,255,0.7);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.2px;
   }
-  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: #fff; }
+  .tab:hover:not(.active) { background: rgba(255,255,255,0.08); color: #fff; }
 
   /* LAYOUT */
-  .layout { display: grid; grid-template-columns: 360px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 90px); }
+  .layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 68px); }
   @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
   /* SIDEBAR */
   .sidebar {
-    border-right: 1px solid var(--border);
-    padding: 24px 20px;
+    border-right: 2px solid #c0bbb0;
+    padding: 20px 18px;
     overflow-y: auto;
-    height: calc(100vh - 90px);
-    position: sticky; top: 90px;
+    height: calc(100vh - 68px);
+    position: sticky; top: 68px;
     background: var(--surface);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
   }
   @media (max-width: 900px) { .sidebar { height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); } }
 
   .section-label {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted); font-family: 'DM Mono', monospace;
-    padding: 16px 0 10px;
+    font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--muted); font-family: 'JetBrains Mono', monospace;
+    padding: 14px 0 8px; font-weight: 500;
     display: flex; align-items: center; gap: 8px;
   }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #c0bbb0; }
 
   /* CRITERION ROW */
   .criterion {
-    margin-bottom: 14px;
+    margin-bottom: 8px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    transition: border-color 0.2s;
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .criterion.disabled { opacity: 0.4; }
-  .criterion:hover { border-color: #2a3560; }
-  .crit-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .criterion.disabled { opacity: 0.45; }
+  .criterion:hover { border-color: var(--border2); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .crit-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
   .crit-toggle {
-    width: 36px; height: 20px; border-radius: 10px;
-    background: var(--border); border: none; cursor: pointer;
+    width: 34px; height: 19px; border-radius: 10px;
+    background: var(--border2); border: none; cursor: pointer;
     position: relative; flex-shrink: 0; transition: background 0.2s;
   }
   .crit-toggle.on { background: var(--accent); }
   .crit-toggle::after {
     content: ''; position: absolute;
-    width: 14px; height: 14px; border-radius: 50%;
+    width: 13px; height: 13px; border-radius: 50%;
     background: #fff; top: 3px; left: 3px;
     transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   }
-  .crit-toggle.on::after { transform: translateX(16px); }
-  .crit-label { font-size: 13px; font-weight: 600; flex: 1; }
+  .crit-toggle.on::after { transform: translateX(15px); }
+  .crit-label { font-size: 12px; font-weight: 600; flex: 1; color: var(--text); }
   .crit-weight {
-    font-family: 'DM Mono', monospace; font-size: 12px;
-    color: var(--accent); font-weight: 500; min-width: 36px; text-align: right;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent-light); font-weight: 500; min-width: 32px; text-align: right;
   }
   .crit-slider {
     width: 100%; appearance: none;
-    height: 6px; border-radius: 3px;
+    height: 5px; border-radius: 3px;
     background: var(--border); outline: none; cursor: pointer;
     transition: background 0.2s;
   }
   .crit-slider::-webkit-slider-thumb {
-    appearance: none; width: 16px; height: 16px;
+    appearance: none; width: 14px; height: 14px;
     border-radius: 50%; background: var(--accent);
-    cursor: pointer; border: 2px solid var(--bg);
-    box-shadow: 0 0 6px rgba(79,142,247,0.5);
+    cursor: pointer; border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(26,58,107,0.3);
     transition: transform 0.15s, box-shadow 0.15s;
   }
   .crit-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 10px rgba(79,142,247,0.8);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(26,58,107,0.4);
   }
   .crit-slider::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
+    width: 14px; height: 14px; border-radius: 50%;
     background: var(--accent); cursor: pointer;
-    border: 2px solid var(--bg);
+    border: 2px solid #fff;
   }
-  .crit-slider.zero { opacity: 0.4; }
-  .crit-slider.zero::-webkit-slider-thumb { background: var(--muted); box-shadow: none; }
-  .crit-desc { font-size: 10px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+  .crit-slider.zero { opacity: 0.35; }
+  .crit-slider.zero::-webkit-slider-thumb { background: var(--muted2); box-shadow: none; }
+  .crit-desc { font-size: 10px; color: var(--muted); margin-top: 5px; line-height: 1.45; font-family: 'Plus Jakarta Sans', sans-serif; }
 
   /* RESET BTN */
   .reset-btn {
-    width: 100%; padding: 10px; border-radius: 8px;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--muted2); font-family: 'Outfit', sans-serif;
-    font-size: 13px; cursor: pointer; margin-top: 8px;
+    padding: 8px 14px; border-radius: 6px;
+    border: 1px solid var(--border2); background: var(--surface2);
+    color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px; font-weight: 500; cursor: pointer; margin-top: 6px;
     transition: all 0.2s;
   }
-  .reset-btn:hover { border-color: var(--danger); color: var(--danger); }
+  .reset-btn:hover { border-color: var(--danger); color: var(--danger); background: #fef2f2; }
 
   /* MAIN CONTENT */
-  .main { padding: 24px 28px; overflow-y: auto; }
+  .main { padding: 22px 28px; overflow-y: auto; background: var(--bg); }
 
   /* RANKED LIST */
-  .ranked-list { display: flex; flex-direction: column; gap: 10px; }
+  .ranked-list { display: flex; flex-direction: column; gap: 8px; }
   .school-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
+    border-radius: 10px;
+    padding: 14px 18px;
     cursor: pointer;
-    transition: all 0.25s;
+    transition: all 0.2s;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow);
   }
   .school-card::before {
     content: ''; position: absolute;
     left: 0; top: 0; bottom: 0; width: 3px;
     background: var(--accent); opacity: 0;
     transition: opacity 0.2s;
+    border-radius: 10px 0 0 10px;
   }
-  .school-card:hover { border-color: #2a3560; transform: translateX(2px); }
+  .school-card:hover { border-color: var(--border2); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
   .school-card:hover::before { opacity: 1; }
-  .school-card.selected { border-color: var(--accent); background: #0e1830; }
+  .school-card.selected { border-color: var(--accent); background: #eff4fd; box-shadow: 0 0 0 2px rgba(26,58,107,0.1); }
   .school-card.selected::before { opacity: 1; }
-  .card-top { display: flex; align-items: center; gap: 14px; }
+  .card-top { display: flex; align-items: center; gap: 12px; }
   .rank-badge {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px; min-width: 44px; text-align: center;
-    color: var(--muted);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px; min-width: 40px; text-align: center;
+    color: var(--muted); font-weight: 600;
   }
-  .rank-badge.top1 { color: #fbbf24; }
-  .rank-badge.top2 { color: #94a3b8; }
-  .rank-badge.top3 { color: #b45309; }
+  .rank-badge.top1 { color: #b8860b; }
+  .rank-badge.top2 { color: #6b7280; }
+  .rank-badge.top3 { color: #92400e; }
   .school-info { flex: 1; }
-  .school-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-  .school-meta { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
-  .school-score {
-    text-align: right;
-  }
+  .school-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; color: var(--text); }
+  .school-meta { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+  .school-score { text-align: right; }
   .score-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 30px; line-height: 1;
-    letter-spacing: -1px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px; line-height: 1;
+    letter-spacing: -0.5px; font-weight: 700;
   }
-  .score-max { font-size: 11px; color: var(--muted); }
+  .score-max { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
   .compare-btn {
-    padding: 5px 12px; border-radius: 6px;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--muted2); font-size: 11px; cursor: pointer;
-    font-family: 'Outfit', sans-serif; font-weight: 500;
-    transition: all 0.2s; margin-left: 8px;
-    white-space: nowrap;
+    padding: 5px 12px; border-radius: 5px;
+    border: 1px solid var(--border2); background: transparent;
+    color: var(--muted); font-size: 11px; cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600;
+    transition: all 0.2s; margin-left: 8px; white-space: nowrap;
+    letter-spacing: 0.2px;
   }
-  .compare-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-  .compare-btn.active { background: var(--accent2); border-color: var(--accent2); color: #000; }
+  .compare-btn:hover { border-color: var(--accent); color: var(--accent); background: #eff4fd; }
+  .compare-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
   /* MINI BARS */
   .mini-bars {
-    margin-top: 12px;
+    margin-top: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 6px 16px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 5px 14px;
   }
   .mini-bar-row { }
-  .mini-bar-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; display: flex; justify-content: space-between; }
-  .mini-bar-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .mini-bar-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; display: flex; justify-content: space-between; font-family: 'Plus Jakarta Sans', sans-serif; }
+  .mini-bar-track { height: 3px; background: #d4d0c6; border-radius: 2px; overflow: hidden; }
   .mini-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
 
   /* COMPARE PANEL */
   .compare-panel {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    margin-bottom: 24px;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
     display: none;
+    box-shadow: var(--shadow);
   }
   .compare-panel.visible { display: block; }
   .compare-panel h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px; margin-bottom: 16px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px; margin-bottom: 14px;
     display: flex; align-items: center; gap: 10px;
+    color: var(--text);
   }
   .compare-grid { overflow-x: auto; }
   .compare-table { width: 100%; border-collapse: collapse; min-width: 500px; }
   .compare-table th {
-    background: var(--surface2);
-    padding: 10px 14px; font-size: 12px; font-weight: 600;
-    border-bottom: 2px solid var(--border);
-    text-align: left;
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 14px; font-size: 11px; font-weight: 600;
+    border-bottom: none; text-align: left;
+    letter-spacing: 0.2px;
   }
-  .compare-table th:first-child { min-width: 160px; }
-  .compare-table td { padding: 9px 14px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .compare-table th:first-child { min-width: 160px; border-radius: 6px 0 0 0; }
+  .compare-table th:last-child { border-radius: 0 6px 0 0; }
+  .compare-table td { padding: 9px 14px; font-size: 12px; border-bottom: 1px solid #ccc8be; vertical-align: middle; color: var(--text); }
   .compare-table tr:last-child td { border-bottom: none; }
-  .compare-table td:first-child { color: var(--muted); font-size: 11px; font-family: 'DM Mono', monospace; }
+  .compare-table tr:nth-child(even) td { background: var(--surface2); }
+  .compare-table td:first-child { color: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
   .compare-table td.best { color: var(--accent2); font-weight: 700; }
   .compare-table td.worst { color: var(--danger); }
   .bar-cell { display: flex; align-items: center; gap: 8px; }
-  .bar-cell-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; min-width: 60px; overflow: hidden; }
+  .bar-cell-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; min-width: 60px; overflow: hidden; }
   .bar-cell-fill { height: 100%; border-radius: 3px; }
 
   /* FILTER PANEL */
   .filter-panel {
-    background: #0a1020;
+    background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 16px;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
   }
   .filter-panel-title {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted); font-family: 'DM Mono', monospace;
-    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
   }
   .filter-panel-title::after { content:''; flex:1; height:1px; background:var(--border); }
-  .filter-rows { display: flex; flex-direction: column; gap: 10px; }
-  .filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .filter-rows { display: flex; flex-direction: column; gap: 8px; }
+  .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .filter-row-label {
-    font-size: 12px; font-weight: 600; min-width: 90px;
-    font-family: 'Outfit', sans-serif; color: var(--muted2);
+    font-size: 11px; font-weight: 600; min-width: 80px;
+    font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text);
   }
   .filter-toggle {
-    width: 32px; height: 18px; border-radius: 9px;
-    background: var(--border); border: none; cursor: pointer;
+    width: 30px; height: 17px; border-radius: 9px;
+    background: var(--border2); border: none; cursor: pointer;
     position: relative; flex-shrink: 0; transition: background 0.2s;
   }
   .filter-toggle.on { background: var(--accent3); }
   .filter-toggle::after {
-    content:''; position:absolute; width:12px; height:12px;
+    content:''; position:absolute; width:11px; height:11px;
     border-radius:50%; background:#fff; top:3px; left:3px;
-    transition: transform 0.2s;
+    transition: transform 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
-  .filter-toggle.on::after { transform: translateX(14px); }
-  .range-inputs { display: flex; align-items: center; gap: 6px; }
+  .filter-toggle.on::after { transform: translateX(13px); }
+  .range-inputs { display: flex; align-items: center; gap: 5px; }
   .range-input {
-    width: 72px; padding: 5px 8px; border-radius: 6px;
-    border: 1px solid var(--border); background: var(--surface2);
-    color: var(--text); font-family: 'DM Mono', monospace; font-size: 12px;
+    width: 68px; padding: 5px 6px; border-radius: 5px;
+    border: 1px solid var(--border2); background: var(--surface);
+    color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px;
     text-align: center; transition: border-color 0.2s;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
   }
-  .range-input:focus { outline: none; border-color: var(--accent3); }
-  .range-sep { font-size: 11px; color: var(--muted); }
+  .range-input:focus { outline: none; border-color: var(--accent-light); box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+  .range-sep { font-size: 12px; color: var(--muted); font-weight: 500; }
   .filter-badge {
-    font-size: 10px; padding: 2px 8px; border-radius: 10px;
-    background: #1a2a10; color: var(--accent2); border: 1px solid #2a4a20;
-    font-family: 'DM Mono', monospace; white-space: nowrap;
+    font-size: 10px; padding: 2px 7px; border-radius: 4px;
+    background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;
+    font-family: 'JetBrains Mono', monospace; white-space: nowrap;
   }
-  .filter-badge.warn { background: #2a1a05; color: var(--accent3); border-color: #4a3010; }
+  .filter-badge.warn { background: #fef3c7; color: #92400e; border-color: #fde68a; }
   .filter-clear {
     font-size: 11px; color: var(--muted); cursor: pointer; padding: 3px 8px;
-    border-radius: 5px; border: 1px solid var(--border); background: transparent;
-    font-family: 'Outfit', sans-serif; transition: all 0.2s; margin-left: auto;
+    border-radius: 4px; border: 1px solid var(--border2); background: transparent;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500;
+    transition: all 0.2s; margin-left: auto;
   }
   .filter-clear:hover { color: var(--danger); border-color: var(--danger); }
   .below-avg-badge {
-    display: inline-block; font-size: 10px; padding: 1px 6px;
-    border-radius: 4px; background: #2a1a05; color: #f59e0b;
-    font-family: 'DM Mono', monospace; margin-left: 6px;
+    display: inline-block; font-size: 10px; padding: 1px 5px;
+    border-radius: 3px; background: #fef3c7; color: #92400e;
+    font-family: 'JetBrains Mono', monospace; margin-left: 5px;
+    border: 1px solid #fde68a;
   }
   .s10 { color: #22c55e; } .s9 { color: #4ade80; } .s8 { color: #86efac; }
   .s7 { color: #fde68a; } .s6 { color: #fbbf24; } .s5 { color: #f97316; }
@@ -308,18 +340,18 @@
   .fill5, .fill4 { background: #ef4444; }
 
   .group-header {
-    font-size: 11px; letter-spacing: 0.5px; text-transform: none;
-    color: #8ab0e0; font-family: 'Outfit', sans-serif; font-weight: 700;
-    padding: 12px 4px 6px; display: flex; align-items: center; gap: 7px;
-    margin-top: 6px; cursor: pointer; user-select: none;
+    font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+    padding: 10px 2px 5px; display: flex; align-items: center; gap: 6px;
+    margin-top: 4px; cursor: pointer; user-select: none;
     transition: color 0.2s;
-    border-top: 1px solid #1a2440;
+    border-top: 1px solid #c8c4ba;
   }
-  .group-header:first-child { border-top: none; }
-  .group-header:hover { color: #add0ff; }
+  .group-header:first-child { border-top: none; padding-top: 6px; }
+  .group-header:hover { color: var(--accent-light); }
   .group-header .gh-arrow {
-    font-size: 11px; transition: transform 0.25s; flex-shrink: 0;
-    color: #4a6888;
+    font-size: 10px; transition: transform 0.25s; flex-shrink: 0;
+    color: var(--muted2);
   }
   .group-header.collapsed .gh-arrow { transform: rotate(-90deg); }
   .group-children { overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
@@ -327,37 +359,38 @@
 
   /* TOTAL WEIGHT */
   .weight-total {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 14px; margin: 10px 0;
-    font-size: 12px; display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface2); border: 1px solid #bdb8ae;
+    border-radius: 7px; padding: 8px 12px; margin: 8px 0;
+    font-size: 11px; display: flex; justify-content: space-between; align-items: center;
   }
-  .weight-val { font-family: 'DM Mono', monospace; font-weight: 600; }
+  .weight-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; }
   .weight-val.over { color: var(--danger); }
   .weight-val.ok { color: var(--accent2); }
 
   /* NOTICE */
   .notice {
     font-size: 11px; color: var(--muted); text-align: center;
-    padding: 20px; font-family: 'DM Mono', monospace;
+    padding: 20px; font-family: 'JetBrains Mono', monospace;
   }
 
   /* CLEAR COMPARE */
   .clear-compare {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--muted2); font-size: 11px; padding: 4px 10px;
-    border-radius: 6px; cursor: pointer; font-family: 'Outfit', sans-serif;
-    transition: all 0.2s;
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--muted); font-size: 11px; padding: 4px 10px;
+    border-radius: 5px; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500; transition: all 0.2s;
   }
   .clear-compare:hover { border-color: var(--danger); color: var(--danger); }
 
   /* PILLS */
   .pill {
-    display: inline-block; padding: 2px 8px; border-radius: 20px;
-    font-size: 10px; font-weight: 600; font-family: 'DM Mono', monospace;
+    display: inline-block; padding: 2px 7px; border-radius: 4px;
+    font-size: 9px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.3px; text-transform: uppercase;
   }
-  .pill-blue { background: #1e3a6e; color: #93c5fd; }
-  .pill-green { background: #14532d; color: #86efac; }
-  .pill-amber { background: #451a03; color: #fde68a; }
+  .pill-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+  .pill-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .pill-amber { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
 </style>
 </head>
 <body>
@@ -365,11 +398,11 @@
 <div class="header">
   <div class="header-inner">
     <div>
-      <h1>College <span>Ranker</span> <span id="majorLabel" style="font-size:0.65em;color:var(--accent3);font-family:'Outfit',sans-serif;font-weight:500;">— Business Finance</span></h1>
-      <div class="header-sub">15 schools · 22 criteria · 5 groups · real-time ranking</div>
+      <h1>Campus<span class="brand-dot">Rank</span> <span id="majorLabel" style="font-size:0.6em;color:rgba(255,255,255,0.65);font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;letter-spacing:0;">— Business Finance</span></h1>
+      <div class="header-sub">19 schools · 22 criteria · 5 groups · real-time ranking</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <select id="majorSelect" onchange="changeMajor(this.value)" style="background:#0e1221;color:#e2e8f0;border:1px solid #1e2640;border-radius:8px;padding:8px 12px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;min-width:200px;">
+      <select id="majorSelect" onchange="changeMajor(this.value)" style="background:#fff;color:#1a1814;border:1px solid rgba(255,255,255,0.3);border-radius:7px;padding:7px 12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-width:220px;box-shadow:0 1px 4px rgba(0,0,0,0.15);">
         <optgroup label="── Business ──">
           <option value="business_finance" selected>💼 Business — Finance</option>
           <option value="business_accounting">📒 Business — Accounting</option>
@@ -425,7 +458,7 @@
 
     <div class="section-label">Admission Filters</div>
     <div style="margin-bottom:12px;">
-      <div style="font-size:10px;color:var(--muted);margin-bottom:10px;font-family:'DM Mono',monospace;line-height:1.6;">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:10px;font-family:'JetBrains Mono',monospace;line-height:1.6;">
         Set a score range — schools whose admitted middle-50% overlaps your range are shown.<br>⚠️ = your min score is below that school's average.
       </div>
       <div class="filter-rows">
@@ -1104,6 +1137,34 @@ const SCHOOLS = [
       alumni_loyalty: 'Growing tech/engineering network in Boston area',
     }
   },
+  {
+    id: 'drexel', name: 'Drexel University', short: 'DU',
+    location: 'Philadelphia, PA', type: 'Private',
+    sat_lo:1190, sat_hi:1390, act_lo:25, act_hi:31, gpa_avg:3.57,
+    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:6, finance_rank:7, roi:7, tuition_value:6, job_placement:9, social_life:7, safety:6, boston_access:5, diversity:8, coop_internship:10, ai_readiness:7, avg_gpa:6, avg_sat:6, avg_act:6, merit_scholarship:7, acceptance_ease:7, campus_beauty:6, class_size:7, athletics:5, greek_life:6, study_abroad:7, research_opps:7, alumni_loyalty:7 },
+    notes: { wsj_rank:'Not top WSJ ranked — competes on co-op outcomes', usnews_rank:'#136 US News 2026', linkedin_rank:'Strong Philly/NYC employer network via LeBow co-op', finance_rank:'#67 Poets & Quants 2025 undergrad business — LeBow College', roi:'$70K avg salary — 95% completed internship before graduation', tuition_value:'~$45K net — significant aid available', job_placement:'72% employed 3mo — BlackRock JPM PwC Goldman EY on campus', social_life:'Philadelphia city campus — vibrant urban scene', safety:'Urban Philly — standard city awareness needed', boston_access:'~5.5hr drive or Amtrak', diversity:'Above average — strong international student presence', coop_internship:'Up to 3 six-month co-ops = 18 months real experience. Top 3 nationally.', ai_readiness:'LeBow integrating AI analytics; Drexel CS + AI labs strong', avg_gpa:'Avg admitted GPA: 3.57', avg_sat:'Middle 50% SAT: 1190–1390', avg_act:'Middle 50% ACT: 25–31', merit_scholarship:'~70% receive some aid', acceptance_ease:'~85% overall, ~75% for LeBow business', campus_beauty:'Urban Philadelphia campus', class_size:'10:1 ratio', athletics:'CAA member', greek_life:'Active Greek scene for urban school', study_abroad:'Global co-op placements: London, Dublin, Singapore', research_opps:'R1 research university', alumni_loyalty:'180,000+ alumni — growing Philly/NYC finance network' }
+  },
+  {
+    id: 'babson', name: 'Babson College', short: 'BAB',
+    location: 'Wellesley, MA', type: 'Private',
+    sat_lo:1390, sat_hi:1530, act_lo:31, act_hi:34, gpa_avg:3.70,
+    data: { wsj_rank:9, usnews_rank:7, linkedin_rank:8, finance_rank:9, roi:9, tuition_value:7, job_placement:9, social_life:6, safety:9, boston_access:9, diversity:8, coop_internship:8, ai_readiness:7, avg_gpa:8, avg_sat:8, avg_act:8, merit_scholarship:8, acceptance_ease:4, campus_beauty:8, class_size:7, athletics:4, greek_life:3, study_abroad:8, research_opps:6, alumni_loyalty:9 },
+    notes: { wsj_rank:'WSJ #2 overall 2026 — second highest on this list', usnews_rank:'#1 Entrepreneurship 29 consecutive years', linkedin_rank:'Tight-knit entrepreneurial alumni — very active', finance_rank:'Business-only school — all grad with business degree. Top for entrepreneurship & finance.', roi:'$85,500 median salary — meets 100% of demonstrated need', tuition_value:'~$30K net — best value private on list', job_placement:'$85.5K median salary — Babson brand very strong with employers', social_life:'Small campus in Wellesley — Boston 10 miles away', safety:'Wellesley suburb — extremely safe', boston_access:'Only 10 miles from Boston — T accessible', diversity:'Students from 100+ countries — highly international', coop_internship:'FME course — students run real business freshman year', ai_readiness:'Growing AI entrepreneurship curriculum', avg_gpa:'Avg admitted GPA: 3.70', avg_sat:'Middle 50% SAT: 1390–1530', avg_act:'Middle 50% ACT: 31–34', merit_scholarship:'45% receive aid — meets 100% demonstrated need', acceptance_ease:'~17-20% acceptance rate', campus_beauty:'Beautiful 370-acre suburban campus in Wellesley', class_size:'16:1 — personal cohorts', athletics:'Division III — academics dominant', greek_life:'No Greek system', study_abroad:'Strong global programs — 50+ countries', research_opps:'Applied business research focus', alumni_loyalty:'Extremely loyal tight-knit entrepreneurial alumni network' }
+  },
+  {
+    id: 'fordham', name: 'Fordham University', short: 'FU',
+    location: 'New York, NY', type: 'Private',
+    sat_lo:1260, sat_hi:1450, act_lo:29, act_hi:33, gpa_avg:3.65,
+    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:7, finance_rank:7, roi:6, tuition_value:5, job_placement:8, social_life:9, safety:6, boston_access:5, diversity:8, coop_internship:6, ai_readiness:6, avg_gpa:7, avg_sat:7, avg_act:7, merit_scholarship:6, acceptance_ease:6, campus_beauty:8, class_size:7, athletics:7, greek_life:4, study_abroad:8, research_opps:6, alumni_loyalty:7 },
+    notes: { wsj_rank:'Ranked but not elite tier', usnews_rank:'#77 US News 2026 — Gabelli School well-regarded', linkedin_rank:'Strong NYC financial services alumni — Wall Street proximity', finance_rank:'Gabelli School — strong NYC finance recruiting, Wall Street feeder', roi:'~$68K avg salary — NYC helps but high cost', tuition_value:'~$46K net + NYC cost of living', job_placement:'~$68K avg starting salary — strong Wall Street/NYC pipeline', social_life:'NYC is the campus — unmatched urban social scene', safety:'Bronx/Lincoln Center — urban awareness needed', boston_access:'4hr drive or Amtrak', diversity:'Highly diverse — NYC campus demographics', coop_internship:'NYC internships via location — not a formal co-op', ai_readiness:'Growing AI in business; NYC fintech ecosystem access', avg_gpa:'Avg admitted GPA: 3.65', avg_sat:'Middle 50% SAT: 1260–1450', avg_act:'Middle 50% ACT: 29–33', merit_scholarship:'~60% receive aid averaging ~$28K', acceptance_ease:'~46% acceptance rate', campus_beauty:'Rose Hill Bronx — beautiful Gothic; Lincoln Center urban', class_size:'14:1 ratio', athletics:'Atlantic 10 — basketball, no football', greek_life:'No Greek system — Jesuit Catholic', study_abroad:'Fordham London campus, 60+ programs', research_opps:'Moderate — Jesuit teaching focus', alumni_loyalty:'Strong NYC Jesuit network — similar to BC but NYC-based' }
+  },
+  {
+    id: 'quinnipiac', name: 'Quinnipiac University', short: 'QU',
+    location: 'Hamden, CT', type: 'Private',
+    sat_lo:1130, sat_hi:1320, act_lo:25, act_hi:30, gpa_avg:3.60,
+    data: { wsj_rank:5, usnews_rank:4, linkedin_rank:5, finance_rank:6, roi:6, tuition_value:7, job_placement:7, social_life:7, safety:8, boston_access:7, diversity:6, coop_internship:5, ai_readiness:5, avg_gpa:5, avg_sat:5, avg_act:5, merit_scholarship:8, acceptance_ease:8, campus_beauty:8, class_size:8, athletics:7, greek_life:4, study_abroad:6, research_opps:5, alumni_loyalty:5 },
+    notes: { wsj_rank:'Not prominently ranked in major business lists', usnews_rank:'#9 Regional Universities North', linkedin_rank:'Growing but limited national reach — strong CT/NY markets', finance_rank:'School of Business — solid regional reputation', roi:'~$35K net — decent value for private CT school', tuition_value:'~$35K net after aid', job_placement:'~$61K avg starting salary — CT/NY corridor', social_life:'Beautiful new campus — good social scene for size', safety:'Suburban Hamden CT — very safe', boston_access:'~2.5hr drive — easy weekend trips', diversity:'Below average — predominantly white New England school', coop_internship:'Internship programs growing — no mandatory co-op', ai_readiness:'Limited AI-business integration', avg_gpa:'Avg admitted GPA: 3.60', avg_sat:'Middle 50% SAT: 1130–1320', avg_act:'Middle 50% ACT: 25–30', merit_scholarship:'~77% receive merit or need-based aid', acceptance_ease:'~77% acceptance — among most accessible', campus_beauty:'Modern hilltop campus — one of most attractive new campuses in NE', class_size:'Excellent 12:1 ratio', athletics:'MAAC — ice hockey top sport', greek_life:'No Greek system', study_abroad:'Limited but growing', research_opps:'Limited research infrastructure', alumni_loyalty:'Primarily CT-based network' }
+  }
 ];
 
 // ─── CRITERIA DEFINITIONS ─────────────────────────────────────────────────
@@ -1120,8 +1181,8 @@ const ALL_CRITERIA = [
     desc: 'How well the school prepares students for AI-driven workplaces — courses, tools, dedicated programs' },
 
   // ── RANKINGS ──────────────────────────────────────────────────────────
-  { id: 'finance_rank',   label: 'Finance Program Rank',   icon: '📊', defaultWeight: 12, defaultOn: true, group: 'Rankings',
-    desc: 'Specific ranking of the undergraduate Finance/Business program quality (US News, College Factual, Poets & Quants)' },
+  { id: 'finance_rank',   label: 'Undergraduate Program Rank', icon: '📊', defaultWeight: 12, defaultOn: true, group: 'Rankings',
+    desc: 'Program ranking driven by the major selected above — updates automatically when you change the major.' },
   { id: 'wsj_rank',       label: 'WSJ Ranking',            icon: '📰', defaultWeight: 10, defaultOn: true,
     desc: 'Wall Street Journal ranking — 70% weighted on student financial outcomes & salary' },
   { id: 'usnews_rank',    label: 'US News Ranking',        icon: '🏛️', defaultWeight: 6,  defaultOn: true,
@@ -1180,30 +1241,30 @@ const SECONDARY_CRITERIA = [];
 // ─── MAJOR PROGRAM LABELS ─────────────────────────────────────────────────
 // Maps major ID → label for the "program rank" criterion
 const MAJOR_PROGRAM_LABELS = {
-  business_finance:       { label: 'Finance Program Rank',       desc: 'Undergraduate Finance program ranking (US News, College Factual, Poets & Quants)' },
-  business_accounting:    { label: 'Accounting Program Rank',    desc: 'Undergraduate Accounting program ranking nationally' },
-  business_marketing:     { label: 'Marketing Program Rank',     desc: 'Undergraduate Marketing / Communications program ranking' },
-  business_mgmt:          { label: 'Management Program Rank',    desc: 'Undergraduate Business Management program ranking' },
-  business_entrepreneurship: { label: 'Entrepreneurship Rank',  desc: 'Entrepreneurship program quality — accelerators, VC networks, startup culture' },
-  computer_science:       { label: 'CS Program Rank',            desc: 'Computer Science program ranking (US News, CSRankings.org)' },
-  data_science:           { label: 'Data Science Rank',          desc: 'Data Science / Analytics program quality and ranking' },
-  cybersecurity:          { label: 'Cybersecurity Program Rank', desc: 'Cybersecurity program strength and employer demand' },
-  ai_ml:                  { label: 'AI / ML Program Rank',       desc: 'Artificial Intelligence and Machine Learning program quality' },
-  engineering:            { label: 'Engineering Program Rank',   desc: 'Engineering program ranking (US News, ABET accreditation)' },
-  biology:                { label: 'Biology Program Rank',       desc: 'Biology / Life Sciences program quality and research output' },
-  chemistry:              { label: 'Chemistry / Biochem Rank',   desc: 'Chemistry or Biochemistry program strength and research' },
-  math_stats:             { label: 'Math / Stats Program Rank',  desc: 'Mathematics and Statistics program quality' },
-  psychology:             { label: 'Psychology Program Rank',    desc: 'Psychology program quality and research opportunities' },
-  communications:         { label: 'Communications Program Rank',desc: 'Communications / Media program quality (Newhouse, etc.)' },
-  political_science:      { label: 'Poli-Sci / Pre-Law Rank',    desc: 'Political Science program and law school placement rate' },
-  economics:              { label: 'Economics Program Rank',     desc: 'Economics program quality and quantitative rigor' },
-  english:                { label: 'English / Writing Rank',     desc: 'English and Creative Writing program quality' },
-  history:                { label: 'History Program Rank',       desc: 'History department strength and graduate school placement' },
-  nursing:                { label: 'Nursing / Health Sci Rank',  desc: 'Nursing program accreditation (ACEN/CCNE) and NCLEX pass rate' },
-  premed:                 { label: 'Pre-Med / Bio Rank',         desc: 'Pre-med track quality — med school acceptance rates, research access' },
-  public_health:          { label: 'Public Health Rank',         desc: 'Public Health program ranking and MPH/DrPH pipeline' },
-  architecture:           { label: 'Architecture Program Rank',  desc: 'Architecture program (NAAB accreditation, studio quality)' },
-  graphic_design:         { label: 'Design Program Rank',        desc: 'Graphic Design / Visual Arts program quality and portfolio outcomes' },
+  business_finance:          { label: 'Finance Undergrad Rank',        desc: 'How each school ranks specifically for undergraduate Finance — sourced from US News, College Factual, Poets & Quants.' },
+  business_accounting:       { label: 'Accounting Undergrad Rank',     desc: 'Undergraduate Accounting program strength — Big 4 recruiting, CPA pass rates, US News.' },
+  business_marketing:        { label: 'Marketing Undergrad Rank',      desc: 'Undergraduate Marketing program quality — ad agencies, brand management, digital marketing pipelines.' },
+  business_mgmt:             { label: 'Management Undergrad Rank',     desc: 'Undergraduate Business Management program — leadership development, operations, strategy.' },
+  business_entrepreneurship: { label: 'Entrepreneurship Rank',         desc: 'Entrepreneurship program strength — accelerators, VC access, startup culture, real business experience.' },
+  computer_science:          { label: 'CS Undergrad Rank',             desc: 'Computer Science program ranking for this major — sourced from US News, CSRankings.org.' },
+  data_science:              { label: 'Data Science Rank',             desc: 'Data Science / Analytics program quality for this major — curriculum rigor, industry partnerships.' },
+  cybersecurity:             { label: 'Cybersecurity Rank',            desc: 'Cybersecurity program strength for this major — NSA designations, employer demand, lab access.' },
+  ai_ml:                     { label: 'AI / ML Program Rank',          desc: 'Artificial Intelligence & Machine Learning program quality — research labs, faculty, industry ties.' },
+  engineering:               { label: 'Engineering Undergrad Rank',    desc: 'Engineering program ranking for this major — ABET accreditation, US News, employer recruiting.' },
+  biology:                   { label: 'Biology / Life Sci Rank',       desc: 'Biology program quality for this major — research output, lab access, grad/med school pipeline.' },
+  chemistry:                 { label: 'Chemistry / Biochem Rank',      desc: 'Chemistry or Biochemistry program strength — research facilities, faculty publications.' },
+  math_stats:                { label: 'Math / Stats Rank',             desc: 'Mathematics & Statistics program quality — quant rigor, actuarial/finance/PhD pipeline.' },
+  psychology:                { label: 'Psychology Program Rank',       desc: 'Psychology program quality for this major — research labs, clinical experience, grad school rates.' },
+  communications:            { label: 'Communications Rank',           desc: 'Communications / Media program quality — journalism schools, broadcast, PR, digital media.' },
+  political_science:         { label: 'Poli-Sci / Pre-Law Rank',       desc: 'Political Science program quality — law school placement rates, DC/policy pipelines.' },
+  economics:                 { label: 'Economics Undergrad Rank',      desc: 'Economics program quality — quantitative rigor, grad school pipeline, finance/consulting outcomes.' },
+  english:                   { label: 'English / Writing Rank',        desc: 'English & Creative Writing program quality — faculty, MFA pipeline, publishing connections.' },
+  history:                   { label: 'History Program Rank',          desc: 'History department strength — faculty research, grad school placement, primary source access.' },
+  nursing:                   { label: 'Nursing / Health Sci Rank',     desc: 'Nursing program quality — ACEN/CCNE accreditation, NCLEX pass rates, clinical placement.' },
+  premed:                    { label: 'Pre-Med Track Rank',            desc: 'Pre-med program quality — medical school acceptance rates, research access, MCAT prep resources.' },
+  public_health:             { label: 'Public Health Rank',            desc: 'Public Health program quality — CEPH accreditation, MPH pipeline, community health partnerships.' },
+  architecture:              { label: 'Architecture Program Rank',     desc: 'Architecture program quality — NAAB accreditation, studio culture, portfolio outcomes.' },
+  graphic_design:            { label: 'Design / Visual Arts Rank',     desc: 'Graphic Design & Visual Arts program quality — portfolio outcomes, industry placements, studio access.' },
 };
 
 function getProgramRankLabel() {
@@ -1671,19 +1732,19 @@ function getNotOffered() {
 // ─── COLOR UTILS ─────────────────────────────────────────────────────────
 
 function scoreColor(s) {
-  if (s >= 8.5) return '#22c55e';
-  if (s >= 7.5) return '#84cc16';
-  if (s >= 6.5) return '#eab308';
-  if (s >= 5.5) return '#f97316';
-  return '#ef4444';
+  if (s >= 8.5) return '#15803d';
+  if (s >= 7.5) return '#65a30d';
+  if (s >= 6.5) return '#d97706';
+  if (s >= 5.5) return '#ea580c';
+  return '#dc2626';
 }
 
 function valColor(v) {
-  if (v >= 9) return '#22c55e';
-  if (v >= 8) return '#84cc16';
-  if (v >= 7) return '#eab308';
-  if (v >= 6) return '#f97316';
-  return '#ef4444';
+  if (v >= 9) return '#15803d';
+  if (v >= 8) return '#65a30d';
+  if (v >= 7) return '#d97706';
+  if (v >= 6) return '#ea580c';
+  return '#dc2626';
 }
 
 function rankBadge(i) {
@@ -1836,13 +1897,13 @@ function render() {
   const anyFilterOn = filterActive.gpa || filterActive.sat || filterActive.act;
   if (activeCriteria.length === 0 && !anyFilterOn) {
     list.innerHTML = `
-      <div style="text-align:center;padding:60px 20px;color:var(--muted);font-family:'Outfit',sans-serif;">
+      <div style="text-align:center;padding:60px 20px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;">
         <div style="font-size:40px;margin-bottom:16px;">⚖️</div>
-        <div style="font-size:18px;font-weight:600;color:var(--muted2);margin-bottom:8px;">No criteria selected</div>
+        <div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;">No criteria selected</div>
         <div style="font-size:13px;line-height:1.6;max-width:320px;margin:0 auto;">
           Open a group in the sidebar and toggle on at least one criterion — schools will rank as soon as you do.
         </div>
-        <div style="margin-top:20px;font-size:12px;color:#334155;font-family:'DM Mono',monospace;">
+        <div style="margin-top:20px;font-size:12px;color:#334155;font-family:'JetBrains Mono',monospace;">
           Tip: click any group header to expand it →
         </div>
       </div>`;
@@ -1852,8 +1913,8 @@ function render() {
   }
 
   const weightSummary = activeCriteria.length === 0 ? '' : `
-    <div style="background:#0d1526;border:1px solid #1e2640;border-radius:10px;padding:12px 16px;margin-bottom:14px;">
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;font-family:'DM Mono',monospace;margin-bottom:10px;">
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;margin-bottom:14px;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;font-family:'JetBrains Mono',monospace;margin-bottom:10px;">
         ⚖️ Active Criteria Weights
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;">
@@ -1861,11 +1922,11 @@ function render() {
           const pct = Math.round((weights[c.id] / totalW) * 100);
           const barW = pct;
           const col = pct >= 20 ? '#34d399' : pct >= 12 ? '#4f8ef7' : '#f59e0b';
-          return `<div style="display:flex;align-items:center;gap:5px;background:#151929;border:1px solid #1e2640;border-radius:6px;padding:4px 8px;">
+          return `<div style="display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;">
             <span style="font-size:11px;">${c.icon}</span>
-            <span style="font-size:11px;color:#94a3b8;font-family:'Outfit',sans-serif;">${c.id === "finance_rank" ? getProgramRankLabel() : c.label}</span>
+            <span style="font-size:11px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;">${c.id === "finance_rank" ? getProgramRankLabel() : c.label}</span>
             <div style="width:${Math.max(barW,4)}px;height:4px;border-radius:2px;background:${col};min-width:4px;"></div>
-            <span style="font-size:11px;color:${col};font-family:'DM Mono',monospace;font-weight:600;">${pct}%</span>
+            <span style="font-size:11px;color:${col};font-family:'JetBrains Mono',monospace;font-weight:600;">${pct}%</span>
           </div>`;
         }).join('')}
       </div>
@@ -1878,8 +1939,8 @@ function render() {
   // Not-offered banner
   const notOfferedList = getNotOffered();
   const notOfferedBanner = notOfferedList.length > 0 ? `
-    <div style="font-size:11px;color:#64748b;font-family:'DM Mono',monospace;margin-bottom:10px;padding:8px 12px;background:#100a0a;border:1px solid #2a1515;border-radius:6px;">
-      <span style="color:#f43f5e;margin-right:6px;">🚫 Not offering this major:</span>
+    <div style="font-size:11px;color:#64748b;font-family:'JetBrains Mono',monospace;margin-bottom:10px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;">
+      <span style="color:#991b1b;margin-right:6px;">🚫 Not offering this major:</span>
       ${notOfferedList.join(' · ')}
     </div>` : '';
 
@@ -1887,8 +1948,8 @@ function render() {
   const totalSchools = SCHOOLS.filter(s => schoolOffersMajor(s)).length;
   const shownSchools = ranked.length;
   const filterStatus = anyFilterOn ? `
-    <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:10px;padding:6px 12px;background:#0d1526;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <span style="color:var(--accent2)">🔍 Filters active</span>
+    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:10px;padding:6px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="color:#1e40af">🔍 Filters active</span>
       <span>Showing <strong style="color:var(--text)">${shownSchools}</strong> of ${totalSchools} schools</span>
       ${filterActive.gpa ? `<span style="color:var(--accent3)">GPA ${getFilterRange('gpa').map(v=>isFinite(v)?v:'–').join(' – ')}</span>` : ''}
       ${filterActive.sat ? `<span style="color:var(--accent3)">SAT ${getFilterRange('sat').map(v=>isFinite(v)?v:'–').join(' – ')}</span>` : ''}
@@ -1917,16 +1978,16 @@ function render() {
     // Admission stats row — shown when any filter is active
     const admitRow = anyFilterOn ? `
       <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;">Admitted middle-50%:</span>
-        ${filterActive.gpa ? `<span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted2)">
+        <span style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Admitted middle-50%:</span>
+        ${filterActive.gpa ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
           📝 GPA <strong style="color:${belowAvg.includes('GPA')?'#f59e0b':'#94a3b8'}">${school.gpa_avg.toFixed(2)} avg</strong>
           ${belowAvg.includes('GPA') ? '<span class="below-avg-badge">⚠ below avg</span>' : ''}
         </span>` : ''}
-        ${filterActive.sat ? `<span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted2)">
+        ${filterActive.sat ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
           📐 SAT <strong style="color:${belowAvg.includes('SAT')?'#f59e0b':'#94a3b8'}">${school.sat_lo}–${school.sat_hi}</strong>
           ${belowAvg.includes('SAT') ? '<span class="below-avg-badge">⚠ below avg</span>' : ''}
         </span>` : ''}
-        ${filterActive.act ? `<span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted2)">
+        ${filterActive.act ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
           📏 ACT <strong style="color:${belowAvg.includes('ACT')?'#f59e0b':'#94a3b8'}">${school.act_lo}–${school.act_hi}</strong>
           ${belowAvg.includes('ACT') ? '<span class="below-avg-badge">⚠ below avg</span>' : ''}
         </span>` : ''}
@@ -1934,7 +1995,7 @@ function render() {
 
     // Major-specific note for this school
     const majorNote = majorNotes[school.id] ? `
-      <div style="margin-top:8px;font-size:11px;color:#4f8ef7;font-family:'Outfit',sans-serif;padding:5px 10px;background:#0a1428;border-left:2px solid #4f8ef7;border-radius:0 4px 4px 0;">
+      <div style="margin-top:8px;font-size:11px;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;padding:5px 10px;background:#eff4fd;border-left:3px solid var(--accent);border-radius:0 4px 4px 0;">
         💡 ${majorNotes[school.id]}
       </div>` : '';
 
@@ -1945,7 +2006,7 @@ function render() {
           <div class="school-name">${school.name}${belowAvg.length ? ' <span style="font-size:13px">⚠️</span>' : ''}</div>
           <div class="school-meta">${school.location} · ${school.type}
             <span class="pill ${school.type==='Public'?'pill-green':'pill-blue'}" style="margin-left:6px">${school.type}</span>
-            ${belowAvg.length ? `<span style="margin-left:6px;font-size:10px;color:#f59e0b;font-family:'DM Mono',monospace">below avg ${belowAvg.join(', ')}</span>` : ''}
+            ${belowAvg.length ? `<span style="margin-left:6px;font-size:10px;color:#f59e0b;font-family:'JetBrains Mono',monospace">below avg ${belowAvg.join(', ')}</span>` : ''}
           </div>
         </div>
         <div class="school-score">

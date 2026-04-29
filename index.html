@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusRank — College Decision Tool</title>
+<title>CollegeCompass — Find Your Perfect Fit</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -53,7 +53,6 @@
     font-size: clamp(20px, 2.5vw, 26px);
     letter-spacing: -0.3px; color: #fff; font-weight: 700;
   }
-  .header h1 .brand-dot { color: var(--gold); }
   .header-sub {
     font-size: 11px; color: rgba(255,255,255,0.55);
     font-family: 'JetBrains Mono', monospace; margin-top: 3px;
@@ -72,7 +71,7 @@
   .tab:hover:not(.active) { background: rgba(255,255,255,0.08); color: #fff; }
 
   /* LAYOUT */
-  .layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 68px); }
+  .layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 116px); }
   @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
   /* SIDEBAR */
@@ -80,8 +79,8 @@
     border-right: 2px solid #c0bbb0;
     padding: 20px 18px;
     overflow-y: auto;
-    height: calc(100vh - 68px);
-    position: sticky; top: 68px;
+    height: calc(100vh - 116px);
+    position: sticky; top: 116px;
     background: var(--surface);
     box-shadow: 2px 0 8px rgba(0,0,0,0.05);
   }
@@ -324,6 +323,69 @@
     transition: all 0.2s; margin-left: auto;
   }
   .filter-clear:hover { color: var(--danger); border-color: var(--danger); }
+  /* TOOLTIPS */
+  .tip-wrap { position: relative; display: inline-flex; align-items: center; gap: 3px; cursor: help; }
+  .tip-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--border2); color: var(--muted);
+    font-size: 9px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0; line-height: 1; transition: background 0.15s;
+  }
+  .tip-icon:hover { background: var(--accent); color: #fff; }
+  .tip-wrap:hover .tip-icon { background: var(--accent); color: #fff; }
+  .tip-box {
+    display: none; position: absolute;
+    bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%);
+    background: #1a1814; color: #e2e8f0;
+    font-size: 11px; line-height: 1.5;
+    padding: 8px 11px; border-radius: 7px;
+    width: 220px; z-index: 999;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    pointer-events: none; white-space: normal;
+  }
+  .tip-box::after {
+    content: ''; position: absolute;
+    top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: #1a1814;
+  }
+  .tip-wrap:hover .tip-box { display: block; }
+
+  /* ACCEPT RATE BADGE */
+  .accept-badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 7px; border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: 6px; vertical-align: middle;
+  }
+  .accept-easy   { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+  .accept-medium { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+  .accept-hard   { background: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+  .accept-vhard  { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  /* TUITION RANGE SLIDER */
+  .tuition-filter { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .tuition-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tuition-slider-wrap { flex: 1; min-width: 140px; }
+  .tuition-slider {
+    width: 100%; appearance: none; height: 5px; border-radius: 3px;
+    outline: none; cursor: pointer; background: var(--border);
+    transition: background 0.2s;
+  }
+  .tuition-slider::-webkit-slider-thumb {
+    appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent3); cursor: pointer;
+    border: 2px solid #fff; box-shadow: 0 1px 4px rgba(180,83,9,0.3);
+    transition: transform 0.15s;
+  }
+  .tuition-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .tuition-val {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent3); font-weight: 600; min-width: 52px; text-align: right;
+  }
   .below-avg-badge {
     display: inline-block; font-size: 10px; padding: 1px 5px;
     border-radius: 3px; background: #fef3c7; color: #92400e;
@@ -391,6 +453,305 @@
   .pill-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
   .pill-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
   .pill-amber { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+
+  /* TOP FILTER BAR */
+  .filter-bar {
+    background: #eeede9;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    position: sticky; top: 68px; z-index: 90;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .filter-bar-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: stretch; gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* FILTER CARD — the bordered box with label in the border */
+  .fb-card {
+    position: relative;
+    border: 1.5px solid var(--border2);
+    border-radius: 8px;
+    padding: 8px 12px 7px;
+    background: var(--surface);
+    display: flex; align-items: center; gap: 7px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 0;
+  }
+  .fb-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(26,58,107,0.1);
+  }
+  .fb-card.location-card { border-style: solid; border-color: var(--border2); }
+  .fb-card.location-card.has-zip { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(26,58,107,0.1); }
+
+  /* Floating label in the border */
+  .fb-card-label {
+    position: absolute;
+    top: -9px; left: 10px;
+    background: var(--surface);
+    padding: 0 5px;
+    font-size: 10px; font-weight: 700;
+    color: var(--muted);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    transition: color 0.2s;
+    pointer-events: none;
+  }
+  .fb-card.active .fb-card-label { color: var(--accent); }
+  .fb-card.location-card.has-zip .fb-card-label { color: var(--accent); }
+
+  /* Toggle pill — LEFT inside card */
+  .fb-toggle {
+    width: 30px; height: 17px; border-radius: 9px;
+    background: var(--border2); border: none; cursor: pointer;
+    position: relative; flex-shrink: 0; transition: background 0.2s;
+  }
+  .fb-toggle.on { background: var(--accent); }
+  .fb-toggle::after {
+    content:''; position:absolute; width:11px; height:11px;
+    border-radius:50%; background:#fff; top:3px; left:3px;
+    transition: transform 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .fb-toggle.on::after { transform: translateX(13px); }
+
+  /* Inputs */
+  .fb-input {
+    width: 58px; padding: 3px 5px; border-radius: 5px;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    text-align: center; transition: border-color 0.2s;
+  }
+  .fb-input::placeholder { color: var(--muted2); }
+  .fb-input:focus { outline: none; border-color: var(--accent-light); box-shadow: 0 0 0 2px rgba(37,99,235,0.12); }
+  .fb-input.zip { width: 78px; font-size: 12px; }
+  .fb-input:disabled { opacity: 0.4; cursor: not-allowed; }
+  .fb-sep { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  /* Slider */
+  .fb-slider-wrap { width: 88px; }
+  .fb-slider {
+    width: 100%; appearance: none; height: 4px; border-radius: 2px;
+    background: var(--border); outline: none; cursor: pointer;
+  }
+  .fb-slider::-webkit-slider-thumb {
+    appearance: none; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent3); cursor: pointer; border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .fb-val {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent3); font-weight: 700; min-width: 38px; white-space: nowrap;
+  }
+
+  /* Location select */
+  .fb-select {
+    padding: 3px 6px; border-radius: 5px;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px;
+    cursor: pointer;
+  }
+  .fb-select:focus { outline: none; border-color: var(--accent-light); }
+
+  /* Clear button */
+  .fb-clear {
+    margin-left: auto; padding: 7px 14px; border-radius: 7px;
+    border: 1.5px solid var(--border2); background: transparent;
+    color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    white-space: nowrap; align-self: center;
+  }
+  .fb-clear:hover { border-color: var(--danger); color: var(--danger); background: #fef2f2; }
+
+  /* RIGHT SLIDE PANEL */
+  .info-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4); z-index: 500;
+    backdrop-filter: blur(2px);
+  }
+  .info-overlay.open { display: block; }
+  .info-panel {
+    position: fixed; top: 0; right: -480px; bottom: 0; width: 460px;
+    background: var(--surface); border-left: 2px solid var(--border2);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.15);
+    z-index: 501; overflow-y: auto;
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column;
+  }
+  .info-panel.open { right: 0; }
+  @media (max-width: 500px) { .info-panel { width: 100%; right: -100%; } }
+  .info-panel-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--accent);
+    color: #fff; flex-shrink: 0;
+  }
+  .info-panel-title {
+    font-family: 'Playfair Display', serif; font-size: 20px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .info-panel-sub {
+    font-size: 11px; color: rgba(255,255,255,0.65);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .info-panel-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.3); background: transparent;
+    color: #fff; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .info-panel-close:hover { background: rgba(255,255,255,0.15); }
+  .info-panel-body { padding: 20px; flex: 1; }
+  .info-section { margin-bottom: 18px; }
+  .info-section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .info-pros .info-section-title { color: var(--accent2); }
+  .info-cons .info-section-title { color: var(--danger); }
+  .info-bottom .info-section-title { color: var(--accent); }
+  .info-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .info-list li {
+    font-size: 12px; color: var(--text); line-height: 1.5;
+    padding: 7px 10px; border-radius: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .info-pros .info-list li { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .info-cons .info-list li { background: #fef2f2; border: 1px solid #fecaca; }
+  .info-bottom-text {
+    font-size: 13px; color: var(--text); line-height: 1.6;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #eff4fd; border: 1px solid #bfdbfe;
+    border-radius: 8px; padding: 12px 14px;
+    border-left: 3px solid var(--accent);
+  }
+  .info-match-row {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+    padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  .info-match-item {
+    font-size: 11px; padding: 4px 10px; border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+  }
+  .info-match-ok { background: #dcfce7; color: #15803d; }
+  .info-match-warn { background: #fef9c3; color: #854d0e; }
+  .info-match-na { background: var(--surface2); color: var(--muted); }
+  .info-skeleton {
+    display: flex; flex-direction: column; gap: 12px; padding: 20px;
+  }
+  .skel-line {
+    height: 14px; border-radius: 4px;
+    background: linear-gradient(90deg, var(--border) 25%, var(--surface2) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .info-error {
+    padding: 20px; text-align: center; color: var(--muted);
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px;
+  }
+
+
+  /* DARK MODE THEME */
+  [data-theme="dark"] {
+    --bg: #07090f;
+    --surface: #0e1221;
+    --surface2: #151929;
+    --border: #1e2640;
+    --border2: #2a3560;
+    --accent: #4f8ef7;
+    --accent-light: #6ba3ff;
+    --accent2: #34d399;
+    --accent3: #f59e0b;
+    --danger: #f43f5e;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --muted2: #94a3b8;
+    --gold: #f0c060;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 4px 6px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.35);
+  }
+  [data-theme="dark"] .header {
+    background: #0a1628;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  [data-theme="dark"] .filter-bar {
+    background: #0d1526;
+    border-bottom-color: #1e2640;
+  }
+  [data-theme="dark"] .fb-card {
+    background: #0e1221;
+    border-color: #2a3560;
+  }
+  [data-theme="dark"] .fb-card-label { background: #0e1221; }
+  [data-theme="dark"] .fb-input {
+    background: #151929; border-color: #1e2640;
+    color: #e2e8f0;
+  }
+  [data-theme="dark"] .fb-input::placeholder { color: #475569; }
+  [data-theme="dark"] .fb-select {
+    background: #151929; border-color: #1e2640; color: #e2e8f0;
+  }
+  [data-theme="dark"] .fb-clear { border-color: #2a3560; color: #64748b; }
+  [data-theme="dark"] .fb-clear:hover { border-color: #f43f5e; color: #f43f5e; background: rgba(244,63,94,0.08); }
+  [data-theme="dark"] .fb-toggle { background: #2a3560; }
+  [data-theme="dark"] .sidebar { background: #0e1221; border-right-color: #1e2640; }
+  [data-theme="dark"] .school-card { background: #0e1221; border-color: #1e2640; }
+  [data-theme="dark"] .school-card.selected { background: #0e1830; border-color: #4f8ef7; }
+  [data-theme="dark"] .school-card:hover { border-color: #2a3560; }
+  [data-theme="dark"] .compare-panel { background: #0e1221; border-color: #1e2640; }
+  [data-theme="dark"] .compare-table th { background: #0a1628; }
+  [data-theme="dark"] .compare-table tr:nth-child(even) td { background: #151929; }
+  [data-theme="dark"] .compare-table td { border-bottom-color: #1e2640; color: #e2e8f0; }
+  [data-theme="dark"] .criterion { background: #151929; border-color: #1e2640; }
+  [data-theme="dark"] .criterion:hover { border-color: #2a3560; }
+  [data-theme="dark"] .weight-total { background: #151929; border-color: #1e2640; }
+  [data-theme="dark"] .group-header { color: #6ba3ff; border-top-color: #1e2640; }
+  [data-theme="dark"] .reset-btn { background: #151929; border-color: #2a3560; color: #94a3b8; }
+  [data-theme="dark"] .reset-btn:hover { border-color: #f43f5e; color: #f43f5e; background: rgba(244,63,94,0.08); }
+  [data-theme="dark"] .info-panel { background: #0e1221; border-left-color: #2a3560; }
+  [data-theme="dark"] .info-panel-header { background: #0a1628; }
+  [data-theme="dark"] .info-pros .info-list li { background: #0d1f14; border-color: #1a4028; }
+  [data-theme="dark"] .info-cons .info-list li { background: #1f0d0d; border-color: #401a1a; }
+  [data-theme="dark"] .info-bottom-text { background: #0e1830; border-color: #1e3a6e; }
+  [data-theme="dark"] .info-overlay { background: rgba(0,0,0,0.6); }
+  [data-theme="dark"] .pill-blue { background: #1e3a6e; color: #93c5fd; border-color: #2a4a8e; }
+  [data-theme="dark"] .pill-green { background: #14532d; color: #86efac; border-color: #1a6338; }
+  [data-theme="dark"] .accept-easy { background: #14532d; color: #86efac; border-color: #1a6338; }
+  [data-theme="dark"] .accept-medium { background: #451a03; color: #fde68a; border-color: #6b2a05; }
+  [data-theme="dark"] .accept-hard { background: #5a1a1a; color: #fca5a5; border-color: #7a2a2a; }
+  [data-theme="dark"] .accept-vhard { background: #3b0f2a; color: #f9a8d4; border-color: #5a1a40; }
+  [data-theme="dark"] .tip-box { background: #1e2640; color: #e2e8f0; }
+  [data-theme="dark"] .tip-box::after { border-top-color: #1e2640; }
+  [data-theme="dark"] .below-avg-badge { background: #451a03; color: #fde68a; border-color: #6b2a05; }
+
+  /* THEME TOGGLE BUTTON */
+  .theme-toggle {
+    padding: 6px 14px;
+    border-radius: 7px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.4);
+    color: #fff;
+  }
 </style>
 </head>
 <body>
@@ -398,8 +759,29 @@
 <div class="header">
   <div class="header-inner">
     <div>
-      <h1>Campus<span class="brand-dot">Rank</span> <span id="majorLabel" style="font-size:0.6em;color:rgba(255,255,255,0.65);font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;letter-spacing:0;">— Business Finance</span></h1>
-      <div class="header-sub">19 schools · 22 criteria · 5 groups · real-time ranking</div>
+      <!-- CollegeCompass Logo -->
+      <div style="display:flex;align-items:center;gap:12px;">
+        <!-- Graduation cap SVG icon -->
+        <svg width="36" height="36" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+          <!-- Cap board -->
+          <polygon points="40,12 72,28 40,44 8,28" fill="rgba(255,255,255,0.95)"/>
+          <polygon points="40,12 72,28 40,44 8,28" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Standing pole -->
+          <line x1="72" y1="28" x2="72" y2="44" stroke="rgba(255,255,255,0.9)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Tassel -->
+          <circle cx="72" cy="46" r="3" fill="#c9a84c"/>
+          <line x1="70" y1="49" x2="67" y2="57" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="72" y1="49" x2="72" y2="58" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="74" y1="49" x2="77" y2="57" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Base -->
+          <line x1="40" y1="44" x2="40" y2="60" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="26" y="58" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.8)"/>
+        </svg>
+        <div>
+          <h1 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(18px,2.5vw,24px);letter-spacing:-0.3px;color:#fff;font-weight:700;line-height:1.1;">College<span style="color:#c9a84c;">Compass</span></h1>
+          <div style="font-size:10px;color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;margin-top:2px;letter-spacing:1.5px;">FIND YOUR PERFECT FIT</div>
+        </div>
+      </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <select id="majorSelect" onchange="changeMajor(this.value)" style="background:#fff;color:#1a1814;border:1px solid rgba(255,255,255,0.3);border-radius:7px;padding:7px 12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;min-width:220px;box-shadow:0 1px 4px rgba(0,0,0,0.15);">
@@ -445,7 +827,84 @@
       <button class="tab active" onclick="showView('ranked')">📊 Ranked List</button>
       <button class="tab" onclick="showView('compare')">⚖️ Compare</button>
     </div>
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" title="Switch between light and dark mode">
+      ☀ Light mode
+    </button>
   </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+
+    <!-- LOCATION — no toggle, always active when zip entered -->
+    <div class="fb-card location-card" id="fb-card-location">
+      <span class="fb-card-label">📍 Location</span>
+      <input class="fb-input zip" type="text" id="fb-zip" placeholder="Zip code"
+        maxlength="5" oninput="onZipInput(this.value)" pattern="[0-9]*" inputmode="numeric">
+      <select class="fb-select" id="fb-miles" onchange="applyFilters()">
+        <option value="9999">Any dist.</option>
+        <option value="50">≤ 50 mi</option>
+        <option value="100">≤ 100 mi</option>
+        <option value="200">≤ 200 mi</option>
+        <option value="300">≤ 300 mi</option>
+        <option value="500">≤ 500 mi</option>
+      </select>
+    </div>
+
+    <!-- GPA -->
+    <div class="fb-card" id="fb-card-gpa">
+      <span class="fb-card-label">📝 GPA</span>
+      <button class="fb-toggle" id="ftog-gpa" onclick="toggleFilter('gpa')" title="Toggle GPA filter on/off"></button>
+      <input class="fb-input" type="number" id="fmin-gpa" min="2.0" max="4.0" step="0.05" value="3.3" placeholder="min" oninput="applyFilters()" disabled>
+      <span class="fb-sep">–</span>
+      <input class="fb-input" type="number" id="fmax-gpa" min="2.0" max="4.0" step="0.05" value="4.0" placeholder="max" oninput="applyFilters()" disabled>
+    </div>
+
+    <!-- SAT -->
+    <div class="fb-card" id="fb-card-sat">
+      <span class="fb-card-label">📐 SAT</span>
+      <button class="fb-toggle" id="ftog-sat" onclick="toggleFilter('sat')" title="Toggle SAT filter on/off"></button>
+      <input class="fb-input" type="number" id="fmin-sat" min="400" max="1600" step="10" value="1200" placeholder="min" oninput="applyFilters()" disabled>
+      <span class="fb-sep">–</span>
+      <input class="fb-input" type="number" id="fmax-sat" min="400" max="1600" step="10" value="1450" placeholder="max" oninput="applyFilters()" disabled>
+    </div>
+
+    <!-- ACT -->
+    <div class="fb-card" id="fb-card-act">
+      <span class="fb-card-label">📏 ACT</span>
+      <button class="fb-toggle" id="ftog-act" onclick="toggleFilter('act')" title="Toggle ACT filter on/off"></button>
+      <input class="fb-input" type="number" id="fmin-act" min="1" max="36" step="1" value="26" placeholder="min" oninput="applyFilters()" disabled>
+      <span class="fb-sep">–</span>
+      <input class="fb-input" type="number" id="fmax-act" min="1" max="36" step="1" value="33" placeholder="max" oninput="applyFilters()" disabled>
+    </div>
+
+    <!-- MAX COA -->
+    <div class="fb-card" id="fb-card-tuition">
+      <span class="fb-card-label">💵 Max Cost (COA)</span>
+      <button class="fb-toggle" id="ftog-tuition" onclick="toggleFilter('tuition')" title="Toggle cost filter on/off"></button>
+      <div class="fb-slider-wrap">
+        <input type="range" class="fb-slider" id="fslider-tuition"
+          min="15000" max="100000" step="1000" value="100000"
+          oninput="updateTuitionSlider(this.value)" disabled>
+      </div>
+      <span class="fb-val" id="fval-tuition">Any</span>
+    </div>
+
+    <!-- CLEAR -->
+    <button class="fb-clear" onclick="clearAllFilters()">✕ Clear</button>
+  </div>
+</div>
+
+<!-- INFO OVERLAY + PANEL -->
+<div class="info-overlay" id="infoOverlay" onclick="closeInfoPanel()"></div>
+<div class="info-panel" id="infoPanel">
+  <div class="info-panel-header" style="position:relative;">
+    <button class="info-panel-close" onclick="closeInfoPanel()">✕</button>
+    <div class="info-panel-title" id="infoPanelTitle">School Info</div>
+    <div class="info-panel-sub" id="infoPanelSub"></div>
+  </div>
+  <div id="infoPanelBody" class="info-panel-body"></div>
 </div>
 
 <div class="layout">
@@ -456,50 +915,32 @@
       <span class="weight-val ok" id="totalWeight">100%</span>
     </div>
 
-    <div class="section-label">Admission Filters</div>
-    <div style="margin-bottom:12px;">
-      <div style="font-size:10px;color:var(--muted);margin-bottom:10px;font-family:'JetBrains Mono',monospace;line-height:1.6;">
-        Set a score range — schools whose admitted middle-50% overlaps your range are shown.<br>⚠️ = your min score is below that school's average.
-      </div>
-      <div class="filter-rows">
-        <!-- GPA -->
-        <div class="filter-row">
-          <button class="filter-toggle" id="ftog-gpa" onclick="toggleFilter('gpa')"></button>
-          <span class="filter-row-label">📝 GPA</span>
-          <div class="range-inputs">
-            <input class="range-input" id="fmin-gpa" type="number" min="2.0" max="4.0" step="0.05" value="3.3" placeholder="min" oninput="applyFilters()">
-            <span class="range-sep">–</span>
-            <input class="range-input" id="fmax-gpa" type="number" min="2.0" max="4.0" step="0.05" value="4.0" placeholder="max" oninput="applyFilters()">
-          </div>
-        </div>
-        <!-- SAT -->
-        <div class="filter-row">
-          <button class="filter-toggle" id="ftog-sat" onclick="toggleFilter('sat')"></button>
-          <span class="filter-row-label">📐 SAT</span>
-          <div class="range-inputs">
-            <input class="range-input" id="fmin-sat" type="number" min="400" max="1600" step="10" value="1200" placeholder="min" oninput="applyFilters()">
-            <span class="range-sep">–</span>
-            <input class="range-input" id="fmax-sat" type="number" min="400" max="1600" step="10" value="1450" placeholder="max" oninput="applyFilters()">
-          </div>
-        </div>
-        <!-- ACT -->
-        <div class="filter-row">
-          <button class="filter-toggle" id="ftog-act" onclick="toggleFilter('act')"></button>
-          <span class="filter-row-label">📏 ACT</span>
-          <div class="range-inputs">
-            <input class="range-input" id="fmin-act" type="number" min="1" max="36" step="1" value="26" placeholder="min" oninput="applyFilters()">
-            <span class="range-sep">–</span>
-            <input class="range-input" id="fmax-act" type="number" min="1" max="36" step="1" value="33" placeholder="max" oninput="applyFilters()">
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div id="criteria-primary"></div>
 
     <div style="display:flex;gap:8px;margin-top:8px;">
       <button class="reset-btn" style="flex:1;" onclick="resetWeights()">↺ Reset to defaults</button>
       <button class="reset-btn" id="clearAllBtn" style="flex:1;" onclick="clearAllWeights()">✕ Clear all</button>
+    </div>
+    <div style="margin-top:18px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:10px;">📖 Glossary</div>
+      <dl style="display:flex;flex-direction:column;gap:8px;">
+        <div>
+          <dt style="font-size:11px;font-weight:700;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;">Middle 50%</dt>
+          <dd style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.5;">The SAT/ACT/GPA range for the middle half of admitted students. 25% scored below, 25% above. Be inside this range for a realistic shot.</dd>
+        </div>
+        <div>
+          <dt style="font-size:11px;font-weight:700;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;">COA — Cost of Attendance</dt>
+          <dd style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.5;">Sticker price: tuition + fees + room + board. What the school advertises before any financial aid.</dd>
+        </div>
+        <div>
+          <dt style="font-size:11px;font-weight:700;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;">Net Price</dt>
+          <dd style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.5;">What your family actually pays after grants and scholarships. Varies by income — use each school's Net Price Calculator for your exact number.</dd>
+        </div>
+        <div>
+          <dt style="font-size:11px;font-weight:700;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;">Admit Rate</dt>
+          <dd style="font-size:10px;color:var(--muted);margin-top:2px;line-height:1.5;">% of applicants offered admission. Lower = more selective. 🔴 Red = hardest (&lt;15%), 🟠 Orange = selective (16–30%), 🟡 Amber = moderate (31–55%), 🟢 Green = accessible (&gt;55%).</dd>
+        </div>
+      </dl>
     </div>
   </div>
 
@@ -527,7 +968,7 @@
 
 const SCHOOLS = [
   {
-    id: 'bc', sat_lo:1420, sat_hi:1540, act_lo:33, act_hi:35, gpa_avg:3.9, name: 'Boston College', short: 'BC',
+    id: 'bc', accept_rate:12.6, coa_sticker:85000, coa_net:40000, sat_lo:1420, sat_hi:1540, act_lo:33, act_hi:35, gpa_avg:3.9, name: 'Boston College', short: 'BC',
     location: 'Chestnut Hill, MA', type: 'Private',
     color: '#8B0000',
     data: {
@@ -539,8 +980,7 @@ const SCHOOLS = [
       // SECONDARY
       merit_scholarship: 2, acceptance_ease: 3, campus_beauty: 8,
       class_size: 8, athletics: 9, greek_life: 5, study_abroad: 7,
-      research_opps: 8, alumni_loyalty: 10,
-    },
+      research_opps: 8, alumni_loyalty: 10, niche_rank:9, forbes_rank:9, pq_rank:9 },
     notes: {
       wsj_rank: '#59 WSJ 2026',
       usnews_rank: '#36 US News 2026',
@@ -570,7 +1010,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'neu', sat_lo:1490, sat_hi:1570, act_lo:34, act_hi:36, gpa_avg:4.0, name: 'Northeastern', short: 'NEU',
+    id: 'neu', accept_rate:5.6, coa_sticker:87000, coa_net:38000, sat_lo:1490, sat_hi:1570, act_lo:34, act_hi:36, gpa_avg:4.0, name: 'Northeastern', short: 'NEU',
     location: 'Boston, MA', type: 'Private',
     color: '#CC0000',
     data: {
@@ -580,8 +1020,7 @@ const SCHOOLS = [
       coop_internship: 10, ai_readiness: 9, avg_gpa: 4.0, avg_sat: 1530, avg_act: 35,
       merit_scholarship: 6, acceptance_ease: 2, campus_beauty: 7,
       class_size: 6, athletics: 5, greek_life: 4, study_abroad: 9,
-      research_opps: 9, alumni_loyalty: 7,
-    },
+      research_opps: 9, alumni_loyalty: 7, niche_rank:8, forbes_rank:8, pq_rank:7 },
     notes: {
       wsj_rank: '~Top 60 WSJ 2026',
       usnews_rank: '#46 US News 2026 (rose 8 spots!)',
@@ -611,7 +1050,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'vill', sat_lo:1360, sat_hi:1490, act_lo:32, act_hi:34, gpa_avg:3.9, name: 'Villanova', short: 'VSB',
+    id: 'vill', accept_rate:22.0, coa_sticker:84000, coa_net:44000, sat_lo:1360, sat_hi:1490, act_lo:32, act_hi:34, gpa_avg:3.9, name: 'Villanova', short: 'VSB',
     location: 'Villanova, PA', type: 'Private',
     color: '#003366',
     data: {
@@ -621,8 +1060,7 @@ const SCHOOLS = [
       coop_internship: 7, ai_readiness: 6, avg_gpa: 3.9, avg_sat: 1420, avg_act: 33,
       merit_scholarship: 3, acceptance_ease: 5, campus_beauty: 9,
       class_size: 9, athletics: 8, greek_life: 7, study_abroad: 7,
-      research_opps: 7, alumni_loyalty: 10,
-    },
+      research_opps: 7, alumni_loyalty: 10, niche_rank:8, forbes_rank:8, pq_rank:9 },
     notes: {
       wsj_rank: '~Top 75 WSJ 2026',
       usnews_rank: '#57 US News 2026',
@@ -652,7 +1090,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'lehigh', sat_lo:1340, sat_hi:1490, act_lo:31, act_hi:34, gpa_avg:3.7, name: 'Lehigh', short: 'LU',
+    id: 'lehigh', accept_rate:29.0, coa_sticker:87000, coa_net:37000, sat_lo:1340, sat_hi:1490, act_lo:31, act_hi:34, gpa_avg:3.7, name: 'Lehigh', short: 'LU',
     location: 'Bethlehem, PA', type: 'Private',
     color: '#8B4513',
     data: {
@@ -662,8 +1100,7 @@ const SCHOOLS = [
       coop_internship: 6, ai_readiness: 6, avg_gpa: 3.7, avg_sat: 1390, avg_act: 32,
       merit_scholarship: 5, acceptance_ease: 5, campus_beauty: 8,
       class_size: 8, athletics: 6, greek_life: 8, study_abroad: 6,
-      research_opps: 8, alumni_loyalty: 9,
-    },
+      research_opps: 8, alumni_loyalty: 9, niche_rank:8, forbes_rank:7, pq_rank:8 },
     notes: {
       wsj_rank: 'WSJ TOP 30 — 3 consecutive years. Score 82.2',
       usnews_rank: '#50 US News 2026',
@@ -693,7 +1130,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'bu', sat_lo:1360, sat_hi:1500, act_lo:31, act_hi:34, gpa_avg:3.7, name: 'Boston University', short: 'BU',
+    id: 'bu', accept_rate:14.0, coa_sticker:88000, coa_net:43000, sat_lo:1360, sat_hi:1500, act_lo:31, act_hi:34, gpa_avg:3.7, name: 'Boston University', short: 'BU',
     location: 'Boston, MA', type: 'Private',
     color: '#CC0000',
     data: {
@@ -703,8 +1140,7 @@ const SCHOOLS = [
       coop_internship: 7, ai_readiness: 6, avg_gpa: 3.7, avg_sat: 1420, avg_act: 33,
       merit_scholarship: 4, acceptance_ease: 5, campus_beauty: 7,
       class_size: 5, athletics: 6, greek_life: 5, study_abroad: 8,
-      research_opps: 9, alumni_loyalty: 6,
-    },
+      research_opps: 9, alumni_loyalty: 6, niche_rank:8, forbes_rank:8, pq_rank:7 },
     notes: {
       wsj_rank: '#44 WSJ 2026',
       usnews_rank: '#42 US News 2026',
@@ -734,7 +1170,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'wfu', sat_lo:1310, sat_hi:1470, act_lo:30, act_hi:34, gpa_avg:3.9, name: 'Wake Forest', short: 'WFU',
+    id: 'wfu', accept_rate:20.0, coa_sticker:84000, coa_net:43000, sat_lo:1310, sat_hi:1470, act_lo:30, act_hi:34, gpa_avg:3.9, name: 'Wake Forest', short: 'WFU',
     location: 'Winston-Salem, NC', type: 'Private',
     color: '#9E7E38',
     data: {
@@ -744,8 +1180,7 @@ const SCHOOLS = [
       coop_internship: 6, ai_readiness: 5, avg_gpa: 3.9, avg_sat: 1390, avg_act: 32,
       merit_scholarship: 6, acceptance_ease: 4, campus_beauty: 10,
       class_size: 9, athletics: 8, greek_life: 8, study_abroad: 8,
-      research_opps: 7, alumni_loyalty: 7,
-    },
+      research_opps: 7, alumni_loyalty: 7, niche_rank:8, forbes_rank:8, pq_rank:7 },
     notes: {
       wsj_rank: '#68 WSJ 2026',
       usnews_rank: '#51 US News 2026 (fell out of top 50)',
@@ -775,7 +1210,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'syr', sat_lo:1220, sat_hi:1360, act_lo:28, act_hi:32, gpa_avg:3.7, name: 'Syracuse', short: 'SU',
+    id: 'syr', accept_rate:60.0, coa_sticker:79000, coa_net:41000, sat_lo:1220, sat_hi:1360, act_lo:28, act_hi:32, gpa_avg:3.7, name: 'Syracuse', short: 'SU',
     location: 'Syracuse, NY', type: 'Private',
     color: '#F76900',
     data: {
@@ -785,8 +1220,7 @@ const SCHOOLS = [
       coop_internship: 6, ai_readiness: 6, avg_gpa: 3.7, avg_sat: 1280, avg_act: 29,
       merit_scholarship: 7, acceptance_ease: 7, campus_beauty: 7,
       class_size: 6, athletics: 9, greek_life: 8, study_abroad: 7,
-      research_opps: 6, alumni_loyalty: 6,
-    },
+      research_opps: 6, alumni_loyalty: 6, niche_rank:6, forbes_rank:6, pq_rank:6 },
     notes: {
       wsj_rank: 'Ranked but not top 75',
       usnews_rank: 'Top 50 business program (US News)',
@@ -816,7 +1250,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'bryant', sat_lo:1280, sat_hi:1430, act_lo:28, act_hi:31, gpa_avg:3.6, name: 'Bryant University', short: 'BU',
+    id: 'bryant', accept_rate:65.0, coa_sticker:70000, coa_net:46000, sat_lo:1280, sat_hi:1430, act_lo:28, act_hi:31, gpa_avg:3.6, name: 'Bryant University', short: 'BU',
     location: 'Smithfield, RI', type: 'Private',
     color: '#1a1a2e',
     data: {
@@ -826,8 +1260,7 @@ const SCHOOLS = [
       coop_internship: 7, ai_readiness: 6, avg_gpa: 3.6, avg_sat: 1310, avg_act: 29,
       merit_scholarship: 10, acceptance_ease: 8, campus_beauty: 8,
       class_size: 7, athletics: 6, greek_life: 4, study_abroad: 6,
-      research_opps: 5, alumni_loyalty: 7,
-    },
+      research_opps: 5, alumni_loyalty: 7, niche_rank:6, forbes_rank:7, pq_rank:7 },
     notes: {
       wsj_rank: 'Top 5% WSJ 2026 — #74 in 2025 (rose 37 spots)',
       usnews_rank: '#5 in Northeast region — not ranked nationally',
@@ -857,7 +1290,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'uconn', sat_lo:1260, sat_hi:1450, act_lo:29, act_hi:33, gpa_avg:3.8, name: 'UConn', short: 'UCONN',
+    id: 'uconn', accept_rate:54.0, coa_sticker:38000, coa_net:17000, sat_lo:1260, sat_hi:1450, act_lo:29, act_hi:33, gpa_avg:3.8, name: 'UConn', short: 'UCONN',
     location: 'Storrs, CT', type: 'Public',
     data: {
       wsj_rank: 5, usnews_rank: 4, linkedin_rank: 5, finance_rank: 8,
@@ -866,8 +1299,7 @@ const SCHOOLS = [
       coop_internship: 5, ai_readiness: 6, avg_gpa: 3.8, avg_sat: 1360, avg_act: 31,
       merit_scholarship: 7, acceptance_ease: 8, campus_beauty: 6,
       class_size: 4, athletics: 9, greek_life: 6, study_abroad: 6,
-      research_opps: 7, alumni_loyalty: 5,
-    },
+      research_opps: 7, alumni_loyalty: 5, niche_rank:6, forbes_rank:6, pq_rank:5 },
     notes: {
       wsj_rank: 'Ranked, not in elite tier for private school comparison',
       usnews_rank: '#151 national but strong public school programs',
@@ -897,7 +1329,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'uri', sat_lo:1100, sat_hi:1280, act_lo:24, act_hi:29, gpa_avg:3.4, name: 'URI', short: 'URI',
+    id: 'uri', accept_rate:73.0, coa_sticker:32000, coa_net:15000, sat_lo:1100, sat_hi:1280, act_lo:24, act_hi:29, gpa_avg:3.4, name: 'URI', short: 'URI',
     location: 'Kingston, RI', type: 'Public',
     data: {
       wsj_rank: 4, usnews_rank: 4, linkedin_rank: 4, finance_rank: 6,
@@ -906,8 +1338,7 @@ const SCHOOLS = [
       coop_internship: 5, ai_readiness: 3, avg_gpa: 3.4, avg_sat: 1190, avg_act: 26,
       merit_scholarship: 8, acceptance_ease: 9, campus_beauty: 7,
       class_size: 4, athletics: 7, greek_life: 7, study_abroad: 5,
-      research_opps: 6, alumni_loyalty: 4,
-    },
+      research_opps: 6, alumni_loyalty: 4, niche_rank:5, forbes_rank:5, pq_rank:4 },
     notes: {
       wsj_rank: 'Not prominently ranked in business context',
       usnews_rank: 'Regional ranking — not national university list',
@@ -937,7 +1368,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'pc', sat_lo:1200, sat_hi:1340, act_lo:27, act_hi:31, gpa_avg:3.7, name: 'Providence College', short: 'PC',
+    id: 'pc', accept_rate:62.0, coa_sticker:74000, coa_net:38000, sat_lo:1200, sat_hi:1340, act_lo:27, act_hi:31, gpa_avg:3.7, name: 'Providence College', short: 'PC',
     location: 'Providence, RI', type: 'Private',
     data: {
       wsj_rank: 4, usnews_rank: 4, linkedin_rank: 6, finance_rank: 5,
@@ -946,8 +1377,7 @@ const SCHOOLS = [
       coop_internship: 5, ai_readiness: 3, avg_gpa: 3.7, avg_sat: 1270, avg_act: 29,
       merit_scholarship: 7, acceptance_ease: 6, campus_beauty: 7,
       class_size: 8, athletics: 7, greek_life: 5, study_abroad: 6,
-      research_opps: 4, alumni_loyalty: 6,
-    },
+      research_opps: 4, alumni_loyalty: 6, niche_rank:6, forbes_rank:5, pq_rank:5 },
     notes: {
       wsj_rank: 'Not ranked in major business school lists',
       usnews_rank: '#2 Regional Universities North — not national tier',
@@ -977,7 +1407,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'umass', sat_lo:1270, sat_hi:1430, act_lo:29, act_hi:32, gpa_avg:3.8, name: 'UMass Amherst', short: 'UMA',
+    id: 'umass', accept_rate:64.0, coa_sticker:38000, coa_net:18000, sat_lo:1270, sat_hi:1430, act_lo:29, act_hi:32, gpa_avg:3.8, name: 'UMass Amherst', short: 'UMA',
     location: 'Amherst, MA', type: 'Public',
     color: '#881c1c',
     data: {
@@ -987,8 +1417,7 @@ const SCHOOLS = [
       coop_internship: 7, ai_readiness: 7, avg_gpa: 3.8, avg_sat: 1340, avg_act: 30,
       merit_scholarship: 7, acceptance_ease: 7, campus_beauty: 7,
       class_size: 4, athletics: 9, greek_life: 7, study_abroad: 6,
-      research_opps: 8, alumni_loyalty: 6,
-    },
+      research_opps: 8, alumni_loyalty: 6, niche_rank:6, forbes_rank:6, pq_rank:6 },
     notes: {
       wsj_rank: 'Not a top WSJ business school — public flagship value play',
       usnews_rank: '#65 US News national universities 2026',
@@ -1018,7 +1447,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'bentley', sat_lo:1280, sat_hi:1430, act_lo:28, act_hi:31, gpa_avg:3.75, name: 'Bentley University', short: 'BU',
+    id: 'bentley', accept_rate:45.0, coa_sticker:83000, coa_net:46000, sat_lo:1280, sat_hi:1430, act_lo:28, act_hi:31, gpa_avg:3.75, name: 'Bentley University', short: 'BU',
     location: 'Waltham, MA', type: 'Private',
     data: {
       wsj_rank: 7, usnews_rank: 6, linkedin_rank: 7, finance_rank: 8,
@@ -1027,8 +1456,7 @@ const SCHOOLS = [
       coop_internship: 8, ai_readiness: 10, avg_gpa: 3.75, avg_sat: 1355, avg_act: 30,
       merit_scholarship: 8, acceptance_ease: 7, campus_beauty: 7,
       class_size: 7, athletics: 5, greek_life: 5, study_abroad: 7,
-      research_opps: 6, alumni_loyalty: 7,
-    },
+      research_opps: 6, alumni_loyalty: 7, niche_rank:7, forbes_rank:8, pq_rank:8 },
     notes: {
       wsj_rank: '#2 MONEY Best Colleges for Business Majors — strong business ROI metrics',
       usnews_rank: '#2 Regional Universities North — top regional business school',
@@ -1058,7 +1486,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'brandeis', sat_lo:1390, sat_hi:1530, act_lo:31, act_hi:34, gpa_avg:3.82, name: 'Brandeis University', short: 'BRD',
+    id: 'brandeis', accept_rate:38.0, coa_sticker:87000, coa_net:44000, sat_lo:1390, sat_hi:1530, act_lo:31, act_hi:34, gpa_avg:3.82, name: 'Brandeis University', short: 'BRD',
     location: 'Waltham, MA', type: 'Private',
     data: {
       wsj_rank: 6, usnews_rank: 7, linkedin_rank: 6, finance_rank: 5,
@@ -1067,8 +1495,7 @@ const SCHOOLS = [
       coop_internship: 6, ai_readiness: 7, avg_gpa: 3.82, avg_sat: 1460, avg_act: 33,
       merit_scholarship: 7, acceptance_ease: 4, campus_beauty: 7,
       class_size: 9, athletics: 4, greek_life: 3, study_abroad: 8,
-      research_opps: 9, alumni_loyalty: 6,
-    },
+      research_opps: 9, alumni_loyalty: 6, niche_rank:7, forbes_rank:7, pq_rank:0 },
     notes: {
       wsj_rank: 'Not specifically ranked for business — ranked #401 THE World 2026',
       usnews_rank: '#69 US News National Universities 2026 — #31 Best Value',
@@ -1098,7 +1525,7 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'wentworth', sat_lo:1130, sat_hi:1300, act_lo:27, act_hi:31, gpa_avg:3.42, name: 'Wentworth Inst. of Tech.', short: 'WIT',
+    id: 'wentworth', accept_rate:88.0, coa_sticker:67000, coa_net:37000, sat_lo:1130, sat_hi:1300, act_lo:27, act_hi:31, gpa_avg:3.42, name: 'Wentworth Inst. of Tech.', short: 'WIT',
     location: 'Boston, MA', type: 'Private',
     data: {
       wsj_rank: 4, usnews_rank: 4, linkedin_rank: 5, finance_rank: 3,
@@ -1107,8 +1534,7 @@ const SCHOOLS = [
       coop_internship: 9, ai_readiness: 6, avg_gpa: 3.42, avg_sat: 1235, avg_act: 28,
       merit_scholarship: 7, acceptance_ease: 9, campus_beauty: 5,
       class_size: 6, athletics: 3, greek_life: 2, study_abroad: 4,
-      research_opps: 5, alumni_loyalty: 5,
-    },
+      research_opps: 5, alumni_loyalty: 5, niche_rank:5, forbes_rank:5, pq_rank:0 },
     notes: {
       wsj_rank: '#28 Regional Universities North — not ranked for business nationally',
       usnews_rank: '#28 Regional Universities North 2026 — #11 Best Colleges for Veterans',
@@ -1138,32 +1564,67 @@ const SCHOOLS = [
     }
   },
   {
-    id: 'drexel', name: 'Drexel University', short: 'DU',
+    id: 'drexel', accept_rate:80.0, coa_sticker:83000, coa_net:45000, name: 'Drexel University', short: 'DU',
     location: 'Philadelphia, PA', type: 'Private',
     sat_lo:1190, sat_hi:1390, act_lo:25, act_hi:31, gpa_avg:3.57,
-    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:6, finance_rank:7, roi:7, tuition_value:6, job_placement:9, social_life:7, safety:6, boston_access:5, diversity:8, coop_internship:10, ai_readiness:7, avg_gpa:6, avg_sat:6, avg_act:6, merit_scholarship:7, acceptance_ease:7, campus_beauty:6, class_size:7, athletics:5, greek_life:6, study_abroad:7, research_opps:7, alumni_loyalty:7 },
+    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:6, finance_rank:7, roi:7, tuition_value:6, job_placement:9, social_life:7, safety:6, boston_access:5, diversity:8, coop_internship:10, ai_readiness:7, avg_gpa:6, avg_sat:6, avg_act:6, merit_scholarship:7, acceptance_ease:7, campus_beauty:6, class_size:7, athletics:5, greek_life:6, study_abroad:7, research_opps:7, alumni_loyalty:7, niche_rank:5, forbes_rank:6, pq_rank:6 },
     notes: { wsj_rank:'Not top WSJ ranked — competes on co-op outcomes', usnews_rank:'#136 US News 2026', linkedin_rank:'Strong Philly/NYC employer network via LeBow co-op', finance_rank:'#67 Poets & Quants 2025 undergrad business — LeBow College', roi:'$70K avg salary — 95% completed internship before graduation', tuition_value:'~$45K net — significant aid available', job_placement:'72% employed 3mo — BlackRock JPM PwC Goldman EY on campus', social_life:'Philadelphia city campus — vibrant urban scene', safety:'Urban Philly — standard city awareness needed', boston_access:'~5.5hr drive or Amtrak', diversity:'Above average — strong international student presence', coop_internship:'Up to 3 six-month co-ops = 18 months real experience. Top 3 nationally.', ai_readiness:'LeBow integrating AI analytics; Drexel CS + AI labs strong', avg_gpa:'Avg admitted GPA: 3.57', avg_sat:'Middle 50% SAT: 1190–1390', avg_act:'Middle 50% ACT: 25–31', merit_scholarship:'~70% receive some aid', acceptance_ease:'~85% overall, ~75% for LeBow business', campus_beauty:'Urban Philadelphia campus', class_size:'10:1 ratio', athletics:'CAA member', greek_life:'Active Greek scene for urban school', study_abroad:'Global co-op placements: London, Dublin, Singapore', research_opps:'R1 research university', alumni_loyalty:'180,000+ alumni — growing Philly/NYC finance network' }
   },
   {
-    id: 'babson', name: 'Babson College', short: 'BAB',
+    id: 'babson', accept_rate:19.0, coa_sticker:82000, coa_net:30000, name: 'Babson College', short: 'BAB',
     location: 'Wellesley, MA', type: 'Private',
     sat_lo:1390, sat_hi:1530, act_lo:31, act_hi:34, gpa_avg:3.70,
-    data: { wsj_rank:9, usnews_rank:7, linkedin_rank:8, finance_rank:9, roi:9, tuition_value:7, job_placement:9, social_life:6, safety:9, boston_access:9, diversity:8, coop_internship:8, ai_readiness:7, avg_gpa:8, avg_sat:8, avg_act:8, merit_scholarship:8, acceptance_ease:4, campus_beauty:8, class_size:7, athletics:4, greek_life:3, study_abroad:8, research_opps:6, alumni_loyalty:9 },
+    data: { wsj_rank:9, usnews_rank:7, linkedin_rank:8, finance_rank:9, roi:9, tuition_value:7, job_placement:9, social_life:6, safety:9, boston_access:9, diversity:8, coop_internship:8, ai_readiness:7, avg_gpa:8, avg_sat:8, avg_act:8, merit_scholarship:8, acceptance_ease:4, campus_beauty:8, class_size:7, athletics:4, greek_life:3, study_abroad:8, research_opps:6, alumni_loyalty:9, niche_rank:7, forbes_rank:9, pq_rank:10 },
     notes: { wsj_rank:'WSJ #2 overall 2026 — second highest on this list', usnews_rank:'#1 Entrepreneurship 29 consecutive years', linkedin_rank:'Tight-knit entrepreneurial alumni — very active', finance_rank:'Business-only school — all grad with business degree. Top for entrepreneurship & finance.', roi:'$85,500 median salary — meets 100% of demonstrated need', tuition_value:'~$30K net — best value private on list', job_placement:'$85.5K median salary — Babson brand very strong with employers', social_life:'Small campus in Wellesley — Boston 10 miles away', safety:'Wellesley suburb — extremely safe', boston_access:'Only 10 miles from Boston — T accessible', diversity:'Students from 100+ countries — highly international', coop_internship:'FME course — students run real business freshman year', ai_readiness:'Growing AI entrepreneurship curriculum', avg_gpa:'Avg admitted GPA: 3.70', avg_sat:'Middle 50% SAT: 1390–1530', avg_act:'Middle 50% ACT: 31–34', merit_scholarship:'45% receive aid — meets 100% demonstrated need', acceptance_ease:'~17-20% acceptance rate', campus_beauty:'Beautiful 370-acre suburban campus in Wellesley', class_size:'16:1 — personal cohorts', athletics:'Division III — academics dominant', greek_life:'No Greek system', study_abroad:'Strong global programs — 50+ countries', research_opps:'Applied business research focus', alumni_loyalty:'Extremely loyal tight-knit entrepreneurial alumni network' }
   },
   {
-    id: 'fordham', name: 'Fordham University', short: 'FU',
+    id: 'fordham', accept_rate:48.0, coa_sticker:84000, coa_net:46000, name: 'Fordham University', short: 'FU',
     location: 'New York, NY', type: 'Private',
     sat_lo:1260, sat_hi:1450, act_lo:29, act_hi:33, gpa_avg:3.65,
-    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:7, finance_rank:7, roi:6, tuition_value:5, job_placement:8, social_life:9, safety:6, boston_access:5, diversity:8, coop_internship:6, ai_readiness:6, avg_gpa:7, avg_sat:7, avg_act:7, merit_scholarship:6, acceptance_ease:6, campus_beauty:8, class_size:7, athletics:7, greek_life:4, study_abroad:8, research_opps:6, alumni_loyalty:7 },
+    data: { wsj_rank:6, usnews_rank:6, linkedin_rank:7, finance_rank:7, roi:6, tuition_value:5, job_placement:8, social_life:9, safety:6, boston_access:5, diversity:8, coop_internship:6, ai_readiness:6, avg_gpa:7, avg_sat:7, avg_act:7, merit_scholarship:6, acceptance_ease:6, campus_beauty:8, class_size:7, athletics:7, greek_life:4, study_abroad:8, research_opps:6, alumni_loyalty:7, niche_rank:6, forbes_rank:6, pq_rank:6 },
     notes: { wsj_rank:'Ranked but not elite tier', usnews_rank:'#77 US News 2026 — Gabelli School well-regarded', linkedin_rank:'Strong NYC financial services alumni — Wall Street proximity', finance_rank:'Gabelli School — strong NYC finance recruiting, Wall Street feeder', roi:'~$68K avg salary — NYC helps but high cost', tuition_value:'~$46K net + NYC cost of living', job_placement:'~$68K avg starting salary — strong Wall Street/NYC pipeline', social_life:'NYC is the campus — unmatched urban social scene', safety:'Bronx/Lincoln Center — urban awareness needed', boston_access:'4hr drive or Amtrak', diversity:'Highly diverse — NYC campus demographics', coop_internship:'NYC internships via location — not a formal co-op', ai_readiness:'Growing AI in business; NYC fintech ecosystem access', avg_gpa:'Avg admitted GPA: 3.65', avg_sat:'Middle 50% SAT: 1260–1450', avg_act:'Middle 50% ACT: 29–33', merit_scholarship:'~60% receive aid averaging ~$28K', acceptance_ease:'~46% acceptance rate', campus_beauty:'Rose Hill Bronx — beautiful Gothic; Lincoln Center urban', class_size:'14:1 ratio', athletics:'Atlantic 10 — basketball, no football', greek_life:'No Greek system — Jesuit Catholic', study_abroad:'Fordham London campus, 60+ programs', research_opps:'Moderate — Jesuit teaching focus', alumni_loyalty:'Strong NYC Jesuit network — similar to BC but NYC-based' }
   },
   {
-    id: 'quinnipiac', name: 'Quinnipiac University', short: 'QU',
+    id: 'quinnipiac', accept_rate:75.0, coa_sticker:68000, coa_net:35000, name: 'Quinnipiac University', short: 'QU',
     location: 'Hamden, CT', type: 'Private',
     sat_lo:1130, sat_hi:1320, act_lo:25, act_hi:30, gpa_avg:3.60,
-    data: { wsj_rank:5, usnews_rank:4, linkedin_rank:5, finance_rank:6, roi:6, tuition_value:7, job_placement:7, social_life:7, safety:8, boston_access:7, diversity:6, coop_internship:5, ai_readiness:5, avg_gpa:5, avg_sat:5, avg_act:5, merit_scholarship:8, acceptance_ease:8, campus_beauty:8, class_size:8, athletics:7, greek_life:4, study_abroad:6, research_opps:5, alumni_loyalty:5 },
+    data: { wsj_rank:5, usnews_rank:4, linkedin_rank:5, finance_rank:6, roi:6, tuition_value:7, job_placement:7, social_life:7, safety:8, boston_access:7, diversity:6, coop_internship:5, ai_readiness:5, avg_gpa:5, avg_sat:5, avg_act:5, merit_scholarship:8, acceptance_ease:8, campus_beauty:8, class_size:8, athletics:7, greek_life:4, study_abroad:6, research_opps:5, alumni_loyalty:5, niche_rank:5, forbes_rank:5, pq_rank:5 },
     notes: { wsj_rank:'Not prominently ranked in major business lists', usnews_rank:'#9 Regional Universities North', linkedin_rank:'Growing but limited national reach — strong CT/NY markets', finance_rank:'School of Business — solid regional reputation', roi:'~$35K net — decent value for private CT school', tuition_value:'~$35K net after aid', job_placement:'~$61K avg starting salary — CT/NY corridor', social_life:'Beautiful new campus — good social scene for size', safety:'Suburban Hamden CT — very safe', boston_access:'~2.5hr drive — easy weekend trips', diversity:'Below average — predominantly white New England school', coop_internship:'Internship programs growing — no mandatory co-op', ai_readiness:'Limited AI-business integration', avg_gpa:'Avg admitted GPA: 3.60', avg_sat:'Middle 50% SAT: 1130–1320', avg_act:'Middle 50% ACT: 25–30', merit_scholarship:'~77% receive merit or need-based aid', acceptance_ease:'~77% acceptance — among most accessible', campus_beauty:'Modern hilltop campus — one of most attractive new campuses in NE', class_size:'Excellent 12:1 ratio', athletics:'MAAC — ice hockey top sport', greek_life:'No Greek system', study_abroad:'Limited but growing', research_opps:'Limited research infrastructure', alumni_loyalty:'Primarily CT-based network' }
+  },
+  {
+    id: 'umiami', accept_rate:19.0, coa_sticker:83000, coa_net:35000, name: 'University of Miami', short: 'UM',
+    location: 'Coral Gables, FL', type: 'Private',
+    sat_lo:1360, sat_hi:1480, act_lo:30, act_hi:34, gpa_avg:3.89,
+    data: { wsj_rank:7, usnews_rank:7, linkedin_rank:7, finance_rank:7, roi:7, tuition_value:6, job_placement:8, social_life:9, safety:7, boston_access:3, diversity:9, coop_internship:6, ai_readiness:6, avg_gpa:7, avg_sat:7, avg_act:7, merit_scholarship:7, acceptance_ease:3, campus_beauty:9, class_size:7, athletics:8, greek_life:7, study_abroad:8, research_opps:7, alumni_loyalty:7, niche_rank:7, forbes_rank:7, pq_rank:6 },
+    notes: { wsj_rank:'Not prominently ranked in WSJ business tier', usnews_rank:'#64 US News 2026', linkedin_rank:'Strong Miami/NYC finance alumni — 145 countries represented', finance_rank:'Herbert Business School — solid regional reputation, growing nationally', roi:'$61,508 median salary (6yr) vs ~$35K net — strong value', tuition_value:'~$34,625 avg net price', job_placement:'~$65K avg salary — strong Miami/NYC/Latin America corridor', social_life:'Miami lifestyle — beach, city, nightlife. Top social scene nationally', safety:'Coral Gables suburb — safe campus, Miami metro awareness', boston_access:'3hr flight — not a weekend trip from Boston', diversity:'Highly diverse — 145 countries, 25% international, strong Latin community', coop_internship:'Growing internship programs — strong employer connections in Miami', ai_readiness:'Growing AI business curriculum; strong FinTech connections in Miami', avg_gpa:'Avg admitted GPA: 3.89', avg_sat:'Middle 50% SAT: 1360–1480', avg_act:'Middle 50% ACT: 30–34', merit_scholarship:"~58% receive aid — President's Scholarship up to $28K/yr", acceptance_ease:'~19% acceptance rate — very selective and getting harder', campus_beauty:'Beautiful tropical campus — consistently ranked most beautiful in South', class_size:'11:1 student-faculty ratio', athletics:'ACC member — football, basketball, baseball top sports', greek_life:'Active Greek scene', study_abroad:'Strong — especially Latin America programs', research_opps:'Major R1 research university — strong biomedical and marine research', alumni_loyalty:'Growing global network — especially strong in Latin American markets' }
+  },
+  {
+    id: 'usc', accept_rate:10.0, coa_sticker:92000, coa_net:29000, name: 'Univ. of Southern California', short: 'USC',
+    location: 'Los Angeles, CA', type: 'Private',
+    sat_lo:1410, sat_hi:1560, act_lo:32, act_hi:35, gpa_avg:3.90,
+    data: { wsj_rank:9, usnews_rank:9, linkedin_rank:9, finance_rank:8, roi:8, tuition_value:5, job_placement:9, social_life:9, safety:5, boston_access:2, diversity:9, coop_internship:7, ai_readiness:8, avg_gpa:8, avg_sat:8, avg_act:8, merit_scholarship:5, acceptance_ease:2, campus_beauty:8, class_size:8, athletics:10, greek_life:9, study_abroad:8, research_opps:9, alumni_loyalty:10, niche_rank:9, forbes_rank:9, pq_rank:8 },
+    notes: { wsj_rank:'WSJ #18 overall — top 20 nationally, elite tier', usnews_rank:'#28 US News 2026 — #10 lowest acceptance rate nationally', linkedin_rank:'Trojan Network — one of most loyal and powerful alumni networks in America', finance_rank:'Marshall School of Business — top 25 nationally, strong LA/NYC/entertainment finance', roi:'$92K+ median salary (10yr) vs ~$29K net — exceptional long-term ROI', tuition_value:'~$29,462 avg net price — sticker $75K but strong aid', job_placement:'~$74K avg salary (6yr) — entertainment, tech, finance top industries', social_life:'LA lifestyle — Hollywood, beaches, sports, world-class city. Legendary campus life', safety:'Urban LA campus — safety concerns in surrounding area, strong campus security', boston_access:'6hr flight — cross-country, not a weekend trip school', diversity:'Highly diverse — top 10 most diverse nationally, 25% international', coop_internship:'LA location = built-in access to entertainment, tech, finance internships', ai_readiness:'Strong — Marshall AI/Analytics program, LA tech ecosystem access', avg_gpa:'Middle 50% GPA: 3.79–4.00 (unweighted)', avg_sat:'Middle 50% SAT: 1410–1560', avg_act:'Middle 50% ACT: 32–35', merit_scholarship:'~41% receive need-based aid — merit scholarships limited at this selectivity level', acceptance_ease:'~10% acceptance rate — Ivy-level selectivity', campus_beauty:'Beautiful Art Deco LA campus', class_size:'8:1 ratio — excellent for a large university', athletics:'Pac-12 — Trojan football legendary, Olympic-level sports culture', greek_life:'Very active Greek scene — 25%+ participation', study_abroad:'Extensive global programs — 100+ countries', research_opps:'$928M annual research funding — top research university', alumni_loyalty:'Trojan Network — strongest alumni loyalty on this entire list' }
+  },
+  {
+    id: 'elon', accept_rate:67.0, coa_sticker:70000, coa_net:38000, name: 'Elon University', short: 'EU',
+    location: 'Elon, NC', type: 'Private',
+    sat_lo:1143, sat_hi:1305, act_lo:23, act_hi:28, gpa_avg:3.80,
+    data: { wsj_rank:5, usnews_rank:5, linkedin_rank:5, finance_rank:6, roi:6, tuition_value:6, job_placement:8, social_life:8, safety:9, boston_access:3, diversity:5, coop_internship:8, ai_readiness:5, avg_gpa:6, avg_sat:5, avg_act:5, merit_scholarship:7, acceptance_ease:8, campus_beauty:9, class_size:7, athletics:7, greek_life:7, study_abroad:9, research_opps:4, alumni_loyalty:6, niche_rank:7, forbes_rank:6, pq_rank:7 },
+    notes: { wsj_rank:'Not prominently ranked in major business lists', usnews_rank:'#117 US News 2026 — #1 Best Undergraduate Teaching nationally', linkedin_rank:'Growing network — primarily Southeast US, some NYC reach', finance_rank:'Love School of Business — #38 Poets & Quants 2025 undergrad business', roi:'$70,877 avg starting salary — 97% placed in 3 months. Strong outcomes for cost.', tuition_value:'~$38K net after aid', job_placement:'97% placed within 3 months — $70,877 avg starting salary (Class of 2024)', social_life:'Beautiful suburban campus with very active social life and Greek community', safety:'Small town Elon, NC — extremely safe', boston_access:'2hr flight BOS to RDU then drive — not a weekend trip school', diversity:'Below average — predominantly white, improving slowly', coop_internship:'100% of business students complete internship. FinTech major launched 2023.', ai_readiness:'Cybersecurity Management minor + FinTech major — growing but limited AI focus', avg_gpa:'Avg admitted GPA: 3.80 (weighted 4.04)', avg_sat:'Middle 50% SAT: 1143–1305', avg_act:'Middle 50% ACT: 23–28', merit_scholarship:'75% receive aid — Business Fellows $5,500/yr, Honors Fellows $13,500/yr', acceptance_ease:'~67% acceptance rate — very accessible', campus_beauty:'One of most beautiful campuses in Southeast — stunning renovated facilities', class_size:'11:1 ratio — #1 Best Undergraduate Teaching nationally', athletics:'CAA D1 — 17 varsity sports', greek_life:'Active Greek life — 30%+ participation', study_abroad:'Top 5 nationally for study abroad — 75%+ of students go abroad', research_opps:'Limited — teaching-focused institution', alumni_loyalty:'Growing Southeast US network, entrepreneurial business community' }
+  },
+  {
+    id: 'uncw', accept_rate:70.0, coa_sticker:24000, coa_net:8000, name: 'UNC Wilmington', short: 'UNCW',
+    location: 'Wilmington, NC', type: 'Public',
+    sat_lo:1170, sat_hi:1320, act_lo:22, act_hi:27, gpa_avg:3.34,
+    data: { wsj_rank:4, usnews_rank:4, linkedin_rank:4, finance_rank:5, roi:6, tuition_value:8, job_placement:6, social_life:8, safety:8, boston_access:2, diversity:5, coop_internship:5, ai_readiness:4, avg_gpa:5, avg_sat:5, avg_act:4, merit_scholarship:7, acceptance_ease:8, campus_beauty:8, class_size:5, athletics:6, greek_life:6, study_abroad:5, research_opps:5, alumni_loyalty:4, niche_rank:5, forbes_rank:4, pq_rank:3 },
+    notes: { wsj_rank:'Not prominently ranked — regional public school', usnews_rank:'Regional ranking in Carolinas — not national university list', linkedin_rank:'Primarily NC-based network — limited national finance reach', finance_rank:'Cameron School of Business — AACSB accredited, solid regional reputation', roi:'Strong value for NC residents — ~$8K in-state tuition', tuition_value:'~$8K in-state / ~$25K out-of-state — best value for NC residents', job_placement:'~$52K avg starting salary — primarily Carolinas/Southeast employers', social_life:'Wilmington beach town — incredible quality of life, outdoor lifestyle', safety:'Wilmington safe suburban area — very safe campus', boston_access:'~16hr drive or 2.5hr flight — effectively not accessible from Boston', diversity:'Below average — predominantly white Southern public school', coop_internship:'Internship programs available — no formal co-op', ai_readiness:'Limited AI business integration', avg_gpa:'Avg admitted GPA: 3.34', avg_sat:'Middle 50% SAT: 1170–1320', avg_act:'Middle 50% ACT: 22–27', merit_scholarship:'~70% receive some aid — NC-specific state aid available', acceptance_ease:'~65% acceptance — accessible public school', campus_beauty:'Beautiful campus near Wilmington beaches', class_size:'18:1 ratio — larger public university classes', athletics:'CAA D1', greek_life:'Active Greek scene for a mid-size school', study_abroad:'Moderate options', research_opps:'Growing programs — marine biology standout', alumni_loyalty:'Primarily NC Wilmington area network' }
+  },
+  {
+    id: 'utampa', accept_rate:80.0, coa_sticker:61000, coa_net:35000, name: 'University of Tampa', short: 'UT',
+    location: 'Tampa, FL', type: 'Private',
+    sat_lo:1130, sat_hi:1330, act_lo:23, act_hi:29, gpa_avg:3.60,
+    data: { wsj_rank:4, usnews_rank:5, linkedin_rank:5, finance_rank:5, roi:6, tuition_value:7, job_placement:7, social_life:8, safety:7, boston_access:3, diversity:7, coop_internship:6, ai_readiness:4, avg_gpa:5, avg_sat:5, avg_act:5, merit_scholarship:9, acceptance_ease:8, campus_beauty:9, class_size:7, athletics:6, greek_life:6, study_abroad:7, research_opps:4, alumni_loyalty:5, niche_rank:5, forbes_rank:5, pq_rank:4 },
+    notes: { wsj_rank:'Not prominently ranked in national business lists', usnews_rank:'#13 Regional Universities South — #34 Best Value Schools 2026', linkedin_rank:'Growing Tampa/Florida network — good for Southeast finance careers', finance_rank:'Sykes College of Business — AACSB accredited, solid regional reputation', roi:'~$58K avg salary vs ~$35K net — decent regional ROI', tuition_value:'~$33,348 tuition — 90% of students receive financial aid', job_placement:'~$58K avg starting salary — Tampa Bay financial services market', social_life:'Beautiful Tampa waterfront campus — vibrant city, warm weather year-round', safety:'Urban Tampa — safe campus, city awareness needed', boston_access:'3hr flight — not a weekend trip school', diversity:'Above average — diverse Florida student body', coop_internship:'Strong Tampa internship access — Raymond James, Citigroup, Amgen all local', ai_readiness:'Limited AI-specific curriculum currently', avg_gpa:'Avg admitted GPA: 3.60', avg_sat:'Middle 50% SAT: 1130–1330', avg_act:'Middle 50% ACT: 23–29', merit_scholarship:'90% receive aid — highest scholarship rate on entire list', acceptance_ease:'~80% acceptance rate — very accessible', campus_beauty:'Plant Hall — historic Gothic-Moorish castle architecture. Stunning and unique.', class_size:'15:1 ratio', athletics:'NCAA Division II', greek_life:'Active Greek scene', study_abroad:'50+ study abroad options', research_opps:'Limited — teaching-focused institution', alumni_loyalty:'Growing Tampa Bay network — strong in regional finance and healthcare' }
   }
 ];
 
@@ -1189,6 +1650,12 @@ const ALL_CRITERIA = [
     desc: 'US News & World Report national university ranking — most widely referenced by families' },
   { id: 'linkedin_rank',  label: 'LinkedIn Career Rank',   icon: '💼', defaultWeight: 6,  defaultOn: true,
     desc: 'LinkedIn Top Colleges — real alumni career outcomes, hiring rates, seniority advancement' },
+  { id: 'niche_rank',     label: 'Niche Overall Rank',     icon: '⭐', defaultWeight: 5,  defaultOn: true,
+    desc: 'Niche.com — student reviews + academics + campus life + value + diversity. Most visited college research site.' },
+  { id: 'forbes_rank',    label: 'Forbes Rank',            icon: '💹', defaultWeight: 5,  defaultOn: true,
+    desc: 'Forbes Top Colleges — alumni earnings (10yr & 20yr salary), student debt load, graduation rates, ROI.' },
+  { id: 'pq_rank',        label: 'Poets & Quants Rank',    icon: '🎓', defaultWeight: 4,  defaultOn: true,
+    desc: 'Poets & Quants — top undergraduate business school ranking. Admissions standards, career outcomes, academic experience. Auto-hidden for non-business majors.' },
 
   // ── FINANCIAL ────────────────────────────────────────────────────────
   { id: 'roi',            label: 'Return on Investment',   icon: '💰', defaultWeight: 10, defaultOn: true, group: 'Financial',
@@ -1282,7 +1749,7 @@ function getProgramRankDesc() {
 const MAJORS = {
   business_finance: {
     label: '— Business Finance', emoji: '💼',
-    weights: { job_placement:14, coop_internship:8, ai_readiness:6, finance_rank:12, wsj_rank:10, usnews_rank:6, linkedin_rank:6, roi:10, tuition_value:6, diversity:6, social_life:5, safety:5, boston_access:6 },
+    weights: { job_placement:12, coop_internship:7, ai_readiness:5, finance_rank:10, wsj_rank:9, usnews_rank:5, linkedin_rank:5, niche_rank:4, forbes_rank:4, pq_rank:4, roi:9, tuition_value:5, diversity:5, social_life:4, safety:4, boston_access:5 },
     noMajor: ['wentworth'],
     note: {}
   },
@@ -1315,7 +1782,7 @@ const MAJORS = {
   },
   computer_science: {
     label: '— Computer Science', emoji: '💻',
-    weights: { job_placement:14, coop_internship:10, ai_readiness:12, finance_rank:0, wsj_rank:7, usnews_rank:8, linkedin_rank:7, roi:9, tuition_value:5, diversity:7, social_life:4, safety:5, boston_access:6, research_opps:8, class_size:8 },
+    weights: { job_placement:13, coop_internship:9, ai_readiness:11, finance_rank:0, wsj_rank:6, usnews_rank:7, linkedin_rank:6, niche_rank:4, forbes_rank:4, pq_rank:0, roi:8, tuition_value:4, diversity:6, social_life:3, safety:4, boston_access:5, research_opps:7, class_size:7 },
     noMajor: ['pc', 'wfu', 'vill', 'bryant', 'uri'],
     scores: {
       neu:{finance_rank:10,job_placement:10,coop_internship:10,ai_readiness:10},
@@ -1564,6 +2031,323 @@ const MAJORS = {
   },
 };
 
+
+// ─── HARDCODED SCHOOL SUMMARIES ─────────────────────────────────────────
+const SCHOOL_SUMMARIES = {
+  'bc': {
+    'business': { pros: ["#6 Finance nationally \u2014 Carroll School at its highest ranking ever", "BC alumni aggressively hire BC grads \u2014 \"Eagles hire Eagles\" culture is real", "Big 4, Goldman, JPMorgan all recruit on campus every year", "20 min from Boston on the T \u2014 internship city access built in"], cons: ["Only 2% of students receive merit aid \u2014 expect near full sticker price", "12.6% acceptance rate \u2014 one of the most competitive on this list", "No formal co-op program \u2014 you build internship experience yourself", "Limited diversity \u2014 predominantly white Catholic campus"], bottom_line: "Best pure finance brand on this list \u2014 if you get in and can pay, it's hard to beat." },
+    'default': { pros: ["Top 36 national university \u2014 strong academic reputation across all fields", "20 min from Boston \u2014 access to internships, research, and employers", "Beautiful campus, strong campus life and D1 athletics", "Excellent alumni network \u2014 BC grads actively mentor and hire"], cons: ["Very selective at 12.6% \u2014 hard to get in", "Near-zero merit aid \u2014 expensive for most families", "Less strong outside business and pre-law tracks", "Limited diversity compared to peer schools"], bottom_line: "Strong all-around university, best for business and pre-law \u2014 excellent if finances align." },
+  },
+  'neu': {
+    'business': { pros: ["Co-op program gives 6 months of real paid finance work before graduation", "Most diverse school on this list \u2014 18%+ international students", "You're literally in Boston \u2014 internship capital of the Northeast", "Rising fast \u2014 #46 US News 2026, up 8 spots in one year"], cons: ["5.6% acceptance rate \u2014 harder to get in than most Ivy League schools", "No guaranteed co-op placement \u2014 you compete for top finance roles", "High cost at ~$38K net \u2014 and Boston living expenses on top", "Less traditional Wall Street pedigree than BC or Villanova"], bottom_line: "Best career launch on this list \u2014 co-op means you graduate with real experience employers pay for." },
+    'default': { pros: ["Co-op in any field \u2014 engineering, CS, health, design all have strong pipelines", "Khoury College of CS is top 20 nationally \u2014 outstanding for tech majors", "#1 co-op program nationally \u2014 6 months real work in your industry", "Boston location gives access to biotech, fintech, hospitals, startups"], cons: ["5.6% acceptance rate \u2014 extremely competitive, Ivy-level difficulty", "Urban campus \u2014 limited traditional college experience", "Co-op adds a semester \u2014 5-year graduation timeline for many programs", "Large university \u2014 can feel impersonal without effort"], bottom_line: "The co-op program transforms any major into a career \u2014 best for students who want real-world experience built in." },
+  },
+  'vill': {
+    'business': { pros: ["$84,440 average starting salary \u2014 highest employment outcome on this list", "96.4% placement rate \u2014 VSB practically guarantees a job", "#12 undergrad business nationally \u2014 Villanova School of Business elite tier", "EY, Deloitte, PwC, Goldman all actively recruit on Main Line campus"], cons: ["22% acceptance rate \u2014 selective, especially for VSB direct admission", "Predominantly white Catholic campus \u2014 real diversity weakness", "Limited merit aid \u2014 VSB prioritizes need-based aid only", "5.5 hour drive from Boston \u2014 not a weekend trip school"], bottom_line: "Best salary outcomes on this list \u2014 VSB alumni loyalty and employer relationships are exceptionally strong." },
+    'default': { pros: ["Strong 8:1 faculty ratio \u2014 genuinely personal academic experience", "Big East basketball culture \u2014 great campus life and sports community", "Philadelphia nearby \u2014 D1 city for internships and culture", "VSB alumni network helps even non-business students in job search"], cons: ["Low diversity \u2014 biggest weakness for students seeking varied perspectives", "Limited co-op \u2014 you build internship experience independently", "Not as strong outside business/pre-law tracks", "Far from Boston \u2014 5.5 hours by car or train"], bottom_line: "Excellent school with strong outcomes, but shines brightest for business students \u2014 other majors get less of the VSB advantage." },
+  },
+  'lehigh': {
+    'business': { pros: ["WSJ Top 30 for 3 consecutive years \u2014 best pure ROI metric on this list", "#17 LinkedIn career outcomes \u2014 grads get and advance in real jobs", "#29 Finance nationally \u2014 tied for top ranking for the price", "~$37K net price with strong Goldman, JPMorgan, Deloitte recruiting"], cons: ["29% acceptance rate \u2014 competitive but achievable with strong stats", "Bethlehem PA is 5.5 hours from Boston \u2014 not accessible for weekends", "Predominantly white \u2014 diversity is a known weakness", "Greek life dominates social scene \u2014 not for everyone"], bottom_line: "The best ROI school on this list \u2014 WSJ-validated outcomes at a price that pays back faster than most." },
+    'default': { pros: ["Strong engineering programs \u2014 ABET accredited, top 30 nationally", "#17 LinkedIn career outcomes \u2014 pays off across majors", "Hillside campus is beautiful \u2014 great college town feel in Bethlehem", "Small class sizes with strong faculty access"], cons: ["Social scene is Greek-dominated \u2014 limited options if not interested", "Far from Boston and major cities \u2014 isolated campus feel", "Best known for business and engineering \u2014 other majors get less spotlight", "Limited diversity compared to urban schools"], bottom_line: "Outstanding ROI school for business and engineering \u2014 other majors benefit from the brand but get less of the infrastructure." },
+  },
+  'bu': {
+    'business': { pros: ["Questrom School solid \u2014 #42 US News, Big 4 and finance firms recruit", "You are in Boston \u2014 city is your campus for internships", "Highly diverse \u2014 top 2 on this list for cultural mix", "BU Trustee Scholarship (8% get ~$48K award) is worth chasing"], cons: ["~$43K net price \u2014 most expensive on this list relative to outcomes", "Weaker ROI than BC, NEU, Villanova at similar cost", "Large university \u2014 Questrom can feel like a factory for business", "WSJ #44 \u2014 solid but not elite for the price point"], bottom_line: "Solid Boston business school but expensive for the outcomes \u2014 better value exists nearby at BC or NEU." },
+    'default': { pros: ["Major research university \u2014 exceptional for pre-med, CS, communications, nursing", "Right in Boston \u2014 T, internships, hospitals, labs all accessible", "BU Medical Campus \u2014 unmatched pre-med/health science infrastructure", "Diverse student body from 130+ countries"], cons: ["Very expensive \u2014 ~$43K net after aid", "Large university \u2014 personal attention requires effort to seek out", "High urban cost of living adds to already steep tuition", "Some programs stronger than others \u2014 research the specific department"], bottom_line: "Outstanding for pre-med, CS, health sciences, and communications \u2014 the Boston location multiplies value for any career-focused student." },
+  },
+  'wfu': {
+    'business': { pros: ["Small class sizes \u2014 11:1 ratio means professors actually know your name", "Beautiful campus \u2014 consistently top 10 most beautiful in America", "WSJ #68 \u2014 solid national standing with Southeast employer strength", "Active Greek life and tight-knit community \u2014 strong alumni loyalty"], cons: ["Slipping in rankings \u2014 fell out of US News top 50 in 2026", "Winston-Salem NC is 2+ hours from any major finance hub", "~$43K net price \u2014 weak ROI relative to BC, Villanova, Lehigh", "Below average diversity \u2014 predominantly white Southern private school"], bottom_line: "Beautiful campus with a strong community, but the rankings are sliding and the distance from major markets hurts finance outcomes." },
+    'default': { pros: ["#1 campus beauty on this list \u2014 656 acres of stunning grounds", "Small seminar-style classes \u2014 exceptional teaching quality", "Flow Program encourages 100% of students to study abroad", "ACC athletics \u2014 strong school spirit and campus energy"], cons: ["Weakening national rankings \u2014 concerning trend across departments", "Remote from Boston and Northeast job markets", "High cost relative to outcomes for most majors", "Limited diversity undermines the educational experience"], bottom_line: "Exceptional teaching in a beautiful setting \u2014 best for students prioritizing campus experience over pure career outcomes." },
+  },
+  'syr': {
+    'business': { pros: ["Strong NYC finance pipeline \u2014 Wall Street alumni network is active", "Whitman School well-regarded \u2014 good Big 4 recruiting presence", "Active campus life \u2014 D1 sports, Greek life, strong social scene", "60% acceptance rate \u2014 accessible for students with mid-range stats"], cons: ["High net price (~$41K) for a school ranked outside the top 50 in business", "Cold winters in upstate NY \u2014 significant quality of life factor", "Urban area has moderate safety concerns near campus", "Weaker ROI compared to Lehigh or Bryant at similar cost"], bottom_line: "Solid NYC pipeline and active campus life, but expensive relative to the outcomes \u2014 better business value exists on this list." },
+    'default': { pros: ["Newhouse School of Communications is #1 nationally \u2014 unmatched for media", "iSchool strong for information science and data analytics", "Big social campus \u2014 200+ clubs, D1 basketball passion", "NYC connections benefit most majors through alumni network"], cons: ["High cost with middling outcomes for non-Newhouse programs", "Cold harsh winters are a real lifestyle consideration", "Some programs trade on the Syracuse name more than substance", "Accessibility concerns in surrounding urban area"], bottom_line: "Elite for communications and media \u2014 good for most majors but overpriced compared to peer options on this list." },
+  },
+  'bryant': {
+    'business': { pros: ["Top 1% ROI nationally \u2014 Georgetown University CEW study verified", "$76K median starting salary with 99% placed in 6 months", "43% of students get merit aid averaging $24K \u2014 best scholarship odds", "Top 5 nationally for internship placement and recruiter demand (LinkedIn)"], cons: ["Small suburban Smithfield campus \u2014 social life is limited off-campus", "Not a Wall Street \"target school\" \u2014 bulge bracket requires hustle", "Low diversity \u2014 predominantly white New England school", "Non-business major options are very limited"], bottom_line: "Hidden gem with exceptional ROI and placement \u2014 perfect for business-focused students who don't need a brand name." },
+    'default': { pros: ["Incredible career services \u2014 recruiters come to campus actively", "Small class sizes \u2014 personal faculty relationships are the norm", "Strong employer connections in Boston/NYC/Hartford corridor", "Merit aid widely available \u2014 43% of students receive awards"], cons: ["Very limited non-business programs \u2014 few majors to choose from", "Small social scene \u2014 Smithfield RI is quiet", "Low diversity across campus", "Limited for students seeking research or STEM programs"], bottom_line: "Outstanding for business \u2014 extremely limited for other majors, check carefully that your program exists here." },
+  },
+  'uconn': {
+    'business': { pros: ["#29 Finance nationally \u2014 same rank as Lehigh at a fraction of the cost", "~$17K in-state tuition \u2014 unbeatable value for CT residents", "Strong Hartford/Boston/NYC finance employer pipeline", "UConn basketball culture \u2014 great D1 campus life"], cons: ["Not rated as well for out-of-state students (~$38K \u2014 value proposition weakens)", "Large public university class sizes \u2014 less personal attention", "Lower name recognition outside New England for finance specifically", "Rural Storrs campus \u2014 2.5 hours from Boston"], bottom_line: "Best value play on this list for CT residents \u2014 #29 Finance ranking at public school price is hard to argue with." },
+    'default': { pros: ["Strong programs across engineering, nursing, education, sciences", "Public university diversity \u2014 above average for New England", "D1 basketball \u2014 one of the most passionate fan bases in the country", "Research university infrastructure \u2014 labs, grants, faculty research"], cons: ["Large classes in introductory courses \u2014 can feel impersonal", "Rural campus \u2014 limited city access for internships", "Out-of-state cost erodes the value advantage", "Requires self-motivation to stand out and access resources"], bottom_line: "Excellent public university value for CT residents \u2014 strong across most fields with championship sports culture." },
+  },
+  'uri': {
+    'business': { pros: ["~$15K in-state tuition \u2014 best sticker price on this list for RI residents", "Top 10% Finance nationally \u2014 surprising ranking for the price", "Only 80 minutes from Boston \u2014 easy access to internship market", "Beach-adjacent campus \u2014 exceptional quality of life"], cons: ["Primarily RI/NE employer reach \u2014 limited national finance network", "~$57K average starting salary \u2014 lowest outcomes on this list", "Large public university \u2014 limited personal attention in classes", "Limited merit aid for out-of-state students"], bottom_line: "Excellent value for RI residents \u2014 not the strongest finance outcomes but the price makes the ROI work." },
+    'default': { pros: ["Lowest cost on entire list for in-state students", "Beautiful Kingston campus near the coast \u2014 top quality of life", "Oceanography program nationally recognized", "Active Greek life and classic state school social experience"], cons: ["Primarily regional employer network \u2014 limited national reach", "Large public classes \u2014 less personal academic experience", "Limited research infrastructure outside marine sciences", "Out-of-state cost removes the value advantage"], bottom_line: "Best value for RI residents seeking a classic college experience \u2014 limited reach beyond New England for most careers." },
+  },
+  'pc': {
+    'business': { pros: ["Only 50 minutes from Boston \u2014 easiest commute home on this list", "#49 LinkedIn \u2014 surprisingly strong finance/accounting alumni network", "FactSet skills noted by LinkedIn \u2014 real Wall Street tool training", "Tight-knit Catholic community \u2014 strong alumni loyalty"], cons: ["Weakest finance-specific outcomes of all private schools on the list", "~$38K net with limited national employer reach outside NE", "Low diversity \u2014 predominantly white Catholic campus", "Limited research and resources compared to larger universities"], bottom_line: "Proximity to Boston is the biggest strength \u2014 finance outcomes are the weakest of the private schools here." },
+    'default': { pros: ["50 minutes from Boston \u2014 easiest home access of any school on this list", "Small campus with personal faculty relationships", "Big East hockey and basketball \u2014 strong school spirit", "Affordable relative to peers with strong need-based aid"], cons: ["Regional reputation limits national career reach", "Very low diversity \u2014 one of the least diverse campuses here", "Limited programs \u2014 not suitable for all majors", "Research infrastructure is minimal"], bottom_line: "Best choice for families prioritizing proximity to Boston \u2014 limited national reach but strong community feel." },
+  },
+  'umass': {
+    'business': { pros: ["#46 Poets & Quants undergrad business \u2014 Isenberg School is underrated", "$71K average starting salary \u2014 89% placed in 3 months", "~$18K in-state tuition \u2014 strong public school value for MA residents", "Fidelity, PwC, Deloitte all actively recruit on campus"], cons: ["Large public university class sizes \u2014 must be proactive to stand out", "1.5 hours from Boston \u2014 accessible but not in-city", "Limited merit aid for out-of-state students", "D1 athletics culture can overshadow academics"], bottom_line: "Excellent value for MA residents \u2014 Isenberg is better than its reputation suggests, strong outcomes at public school cost." },
+    'default': { pros: ["Strong engineering, CS, business, education, nursing programs", "AI in Business certificate and Business Analytics AI concentration available", "Research university \u2014 strong lab access and faculty research", "Diverse public university environment \u2014 above average mix"], cons: ["Large classes, especially freshman year \u2014 less personal", "Rural Amherst \u2014 1.5 hours from Boston limits city access", "Out-of-state cost approaches private school pricing", "Requires initiative to access the best resources"], bottom_line: "Strong public university for MA residents across most fields \u2014 particularly good for business, engineering, and health sciences." },
+  },
+  'bentley': {
+    'business': { pros: ["#2 MONEY Best Colleges for Business \u2014 elite business school recognition", "Bloomberg trading room + FinTech AI courses \u2014 most AI-ready business school on the list", "97-99% placement rate for 10+ consecutive years \u2014 industry leading", "10 miles from Boston \u2014 T-accessible with strong employer presence"], cons: ["Business-only school \u2014 extremely limited if interests extend beyond business", "45% acceptance rate \u2014 moderately selective with strong competition", "Small suburban Waltham campus \u2014 quiet social scene", "Division III athletics \u2014 minimal sports culture"], bottom_line: "Best pure business school for AI and fintech specifically \u2014 unmatched placement rates in a Boston-adjacent location." },
+    'default': { pros: ["10 miles from Boston \u2014 excellent access to internships regardless of major", "Strong employer recruiting pipeline in Boston corridor", "Career services rated #2 in Princeton Review \u2014 outstanding support", "Modern campus, well-maintained facilities"], cons: ["Business-only school \u2014 very few non-business programs exist", "Extremely limited outside of business, finance, and data analytics", "Small social scene with limited extracurricular variety", "High cost for a regional school"], bottom_line: "Only consider Bentley if your major is business-related \u2014 the school has almost nothing to offer outside of that lens." },
+  },
+  'brandeis': {
+    'business': { pros: ["#69 US News National University \u2014 strong academic pedigree", "MBA-adjacent International Business School (IBS) \u2014 good for global finance", "Research university with strong faculty connections", "9 miles from Boston \u2014 T-accessible for internships"], cons: ["IBS is MBA-focused \u2014 undergraduate business program less developed than peers", "Finance-specific outcomes weaker than BC, NEU, Villanova", "Small campus with limited social scene \u2014 quiet on weekends", "High cost (~$44K net) for weaker business-specific outcomes"], bottom_line: "Better for pre-law, economics, and research tracks than pure finance \u2014 business outcomes don't justify the price vs. peers." },
+    'default': { pros: ["Strong pre-med pipeline \u2014 research access, small classes, high med school rates", "Excellent for social sciences, humanities, politics, psychology", "9:1 faculty ratio \u2014 genuinely intimate academic experience", "Highly diverse \u2014 strong Jewish identity and international student community"], cons: ["Small campus \u2014 social life can feel limited especially on weekends", "No Greek system \u2014 club scene replaces it with moderate success", "Division III athletics \u2014 minimal sports culture", "Niche reputation \u2014 less widely recognized than peers"], bottom_line: "Excellent for pre-med, research tracks, and humanities \u2014 small classes and strong faculty make it ideal for academically driven students." },
+  },
+  'wentworth': {
+    'business': { pros: ["Mandatory co-op \u2014 all students complete multiple co-op terms before graduation", "Right in Boston at Huntington Ave \u2014 city access is unmatched", "Strong Boston tech employer pipeline \u2014 good for finance-tech overlap", "Very accessible at 88% acceptance \u2014 realistic for most applicants"], cons: ["NOT a business/finance school \u2014 limited finance-specific programs", "Primarily engineering and architecture \u2014 finance is not a strength", "75/25 male-female ratio \u2014 significant gender imbalance", "Limited social scene \u2014 commuter-heavy campus culture"], bottom_line: "Wrong school for a finance major \u2014 Wentworth excels in engineering and architecture, not business or finance." },
+    'default': { pros: ["Mandatory co-op for all students \u2014 best hands-on experience pipeline on list", "Right in Boston \u2014 Huntington Ave puts you in the heart of the city", "NAAB-accredited architecture \u2014 only serious architecture program on this list", "Accessible admissions \u2014 88% acceptance rate"], cons: ["75/25 male-female ratio \u2014 real gender imbalance affects campus culture", "Small 31-acre urban campus \u2014 limited green space and facilities", "Limited social life \u2014 heavy commuter culture", "Limited for non-engineering/design programs"], bottom_line: "Best choice on this list for architecture and engineering co-op \u2014 wrong fit for business, sciences, or liberal arts." },
+  },
+  'drexel': {
+    'business': { pros: ["Up to 3 six-month co-ops = 18 months real finance experience \u2014 top 3 co-op nationally", "LeBow College #67 Poets & Quants \u2014 solid business school with Wall Street access", "Philadelphia location \u2014 JPMorgan, BlackRock, PwC, EY all recruit on campus", "Students manage a real $640K+ investment portfolio \u2014 unique undergraduate experience"], cons: ["5.5 hour drive from Boston \u2014 not accessible for weekend trips home", "~$45K net price \u2014 high for the outcomes relative to BC or NEU", "Urban Philly campus \u2014 safety awareness required in surrounding areas", "Co-op adds time \u2014 4-year degree often takes 5 years with rotations"], bottom_line: "The co-op depth rivals Northeastern \u2014 18 months of real finance experience is a serious career advantage at a real cost." },
+    'default': { pros: ["3 co-op rotations \u2014 unmatched real-world experience across all majors", "Philadelphia location \u2014 major employers in finance, pharma, healthcare, tech", "R1 research university \u2014 strong lab and research opportunities", "Strong CS, engineering, health sciences alongside business"], cons: ["5-year graduation timeline due to co-op rotations", "Urban campus \u2014 safety awareness needed in surrounding area", "High sticker price \u2014 significant net cost even after aid", "Far from Boston \u2014 5.5 hours limits family access"], bottom_line: "The co-op depth makes any major more career-ready \u2014 best for students who want work experience baked into their degree." },
+  },
+  'babson': {
+    'business': { pros: ["WSJ #2 overall \u2014 second highest WSJ ranking on this entire list", "#1 Entrepreneurship for 29 consecutive years \u2014 best in the world at this", "$85,500 median starting salary \u2014 highest salary outcome on this list", "10 miles from Boston with 100+ country alumni network"], cons: ["Business-only school \u2014 zero options if interests shift outside business", "19% acceptance rate \u2014 selective, similar to Villanova", "Small quiet Wellesley campus \u2014 limited social variety", "Division III athletics \u2014 minimal sports culture"], bottom_line: "Best entrepreneurship and overall business outcomes on the list \u2014 if you want to start something or go into finance, Babson delivers." },
+    'default': { pros: ["WSJ #2 \u2014 legitimately elite academic outcomes", "10 miles from Boston \u2014 excellent location for any internship", "Every student runs a real business freshman year \u2014 entrepreneurial mindset develops naturally", "Strong diverse international community from 100+ countries"], cons: ["Business-only school \u2014 cannot major in anything outside business", "Not suitable for STEM, humanities, health, or arts tracks", "Small isolated Wellesley campus", "Expensive with limited non-business career support"], bottom_line: "Only consider Babson if business is your definitive path \u2014 it's exceptional for that, completely wrong for everything else." },
+  },
+  'fordham': {
+    'business': { pros: ["Gabelli School sits in New York City \u2014 Wall Street is literally nearby", "Strong NYC finance alumni network \u2014 Jesuit loyalty mirrors BC in NYC", "Highly diverse campus \u2014 NYC demographics reflected in student body", "Lincoln Center and Rose Hill campuses offer two NYC experiences"], cons: ["~$46K net price plus NYC cost of living \u2014 most expensive real-world cost on list", "4 hours from Boston \u2014 manageable but not a weekend trip", "Weaker national ranking than BC, NEU, or BU for finance specifically", "Urban campus safety awareness needed (Bronx campus)"], bottom_line: "NYC location is the entire value proposition \u2014 if you want to be in the finance capital of the world, Fordham puts you there." },
+    'default': { pros: ["New York City is your campus \u2014 unmatched access to every industry", "Strong for communications, poli-sci, law track, pre-med", "Fordham Law pipeline \u2014 strong pre-law reputation among Jesuit schools", "Diverse NYC student body \u2014 real-world exposure from day one"], cons: ["NYC cost of living adds significantly to already high tuition", "Urban safety awareness required at Bronx campus", "Not as research-focused as peer universities", "Less compelling outside of business and law tracks"], bottom_line: "NYC access makes Fordham uniquely valuable for media, law, business, and poli-sci \u2014 the city itself is the best feature." },
+  },
+  'quinnipiac': {
+    'business': { pros: ["77% of students receive aid \u2014 one of the most accessible aid programs", "Excellent 12:1 faculty ratio \u2014 personal attention from professors", "Beautiful modern hilltop campus \u2014 one of the most attractive new campuses in NE", "~$35K net price \u2014 among the more affordable privates on the list"], cons: ["Not nationally ranked for business \u2014 limited employer reach outside CT/NY", "~$61K average starting salary \u2014 lowest among private schools on this list", "Limited alumni network outside Connecticut market", "Modest national reputation \u2014 name recognition fades past New England"], bottom_line: "Affordable and accessible with a beautiful campus, but finance outcomes and national reach are limited \u2014 best for CT/NY market goals." },
+    'default': { pros: ["Strong health sciences programs \u2014 nursing, occupational therapy, radiologic sciences", "Beautiful modern campus \u2014 consistently praised by students", "MAAC athletics \u2014 ice hockey culture is strong", "Accessible admissions at 77% acceptance rate"], cons: ["Limited national reputation outside health sciences and communications", "Small alumni network restricts career reach", "Less research infrastructure than university peers", "Primarily regional employer connections"], bottom_line: "Best fit for health sciences, communications, or students seeking an attractive campus at moderate cost \u2014 limited national reach." },
+  },
+  'umiami': {
+    'business': { pros: ["Herbert Business School growing fast \u2014 strong Miami/Latin America finance network", "Most diverse campus on this list \u2014 145 countries represented", "Miami lifestyle \u2014 beach, culture, nightlife, world-class city", "~$35K net price with strong aid \u2014 good value for a top 64 national university"], cons: ["19% acceptance rate \u2014 very selective and getting harder each year", "3-hour flight from Boston \u2014 not a weekend trip home school", "Finance outcomes (~$65K) are lower than BC, NEU, Villanova", "ACC athletic culture is huge \u2014 academics can feel secondary"], bottom_line: "Best for students who want a top university, diverse environment, and Miami lifestyle \u2014 finance outcomes are solid but not elite." },
+    'default': { pros: ["Top 64 national university \u2014 strong across medicine, law, engineering, business", "Unmatched diversity \u2014 truly global student body from 145 countries", "Miami location \u2014 pre-med students get access to Jackson Health System", "Beautiful tropical campus \u2014 best weather and campus aesthetics of any school here"], cons: ["3 hours by flight from Boston \u2014 effectively cross-country for weekends", "19% acceptance rate \u2014 very selective", "Hurricane season and Miami heat are real lifestyle factors", "High cost of living in Miami area"], bottom_line: "Outstanding university for pre-med, international business, and marine sciences \u2014 the diversity and Miami environment are genuine advantages." },
+  },
+  'usc': {
+    'business': { pros: ["WSJ #18 \u2014 elite national ranking, only school here in the true top 20", "Marshall School strong \u2014 top 25 business nationally, entertainment finance unique niche", "$92K+ median salary at 10 years \u2014 highest long-term outcome on the list", "Trojan Network is the most loyal alumni network in America \u2014 one call gets you anywhere"], cons: ["10% acceptance rate \u2014 Ivy-level difficulty to get in", "6-hour flight from Boston \u2014 cross-country, not a realistic weekend trip", "Safety concerns in surrounding campus neighborhoods", "~$29K net but sticker is $92K \u2014 significant financial planning required"], bottom_line: "If you get in and can manage finances, USC opens doors that few schools on this list can match \u2014 Trojan Network is legendary." },
+    'default': { pros: ["Top 28 national university \u2014 world-class across film, engineering, CS, architecture", "LA location \u2014 unmatched for entertainment, tech, aerospace, creative industries", "$928M annual research funding \u2014 exceptional for STEM and health sciences", "Trojan Network: strongest alumni loyalty of any school on this list"], cons: ["10% acceptance \u2014 extremely competitive for every major", "Cross-country from Boston \u2014 6 hours minimum travel", "Urban campus safety awareness required in surrounding area", "Very expensive even after financial aid"], bottom_line: "Elite university with a legendary alumni network \u2014 the LA location and Trojan Network open career doors that most schools cannot." },
+  },
+  'elon': {
+    'business': { pros: ["100% of business students complete an internship before graduation \u2014 verified", "$70,877 average starting salary \u2014 strong for the price point", "#38 Poets & Quants undergrad business \u2014 Love School well-regarded nationally", "#1 Best Undergraduate Teaching in the US \u2014 professors genuinely invest in students"], cons: ["2-hour flight from Boston \u2014 not practical for regular trips home", "Southeast-focused employer network \u2014 limited reach for NYC/Boston finance", "Low diversity \u2014 predominantly white campus", "Limited research infrastructure compared to university peers"], bottom_line: "Outstanding teaching quality and internship culture \u2014 best for students who want personal attention and guaranteed internship experience." },
+    'default': { pros: ["#1 Best Undergraduate Teaching nationally \u2014 remarkable faculty commitment", "Top 5 nationally for study abroad \u2014 75%+ of students go international", "Beautiful 656-acre campus \u2014 one of best environments on this list", "Strong communications and law school pipeline alongside business"], cons: ["2+ hours from Boston by flight \u2014 not accessible for Northeast families", "Southeast-focused network limits national career reach", "Low diversity \u2014 real weakness for a 21st century education", "Limited for heavy research or STEM-focused programs"], bottom_line: "Best undergraduate teaching experience on this list \u2014 ideal for students who prioritize faculty relationships and study abroad." },
+  },
+  'uncw': {
+    'business': { pros: ["~$8K in-state tuition for NC residents \u2014 best value for NC students on list", "AACSB-accredited Cameron School of Business \u2014 legitimate credential", "Wilmington beach town \u2014 exceptional quality of life and campus environment", "Growing employer connections in Carolinas market"], cons: ["~16-hour drive from Boston \u2014 effectively impossible for home visits", "Primarily regional Carolinas employer network \u2014 limited nationally", "~$52K starting salary \u2014 lowest outcomes of any school on this list", "Large public university class sizes \u2014 limited personal attention"], bottom_line: "Outstanding value for NC residents prioritizing lifestyle and low cost \u2014 not the right choice for students targeting Boston or NYC finance." },
+    'default': { pros: ["One of the most beautiful coastal campuses in the US", "Marine biology and ocean sciences nationally recognized", "Outdoor lifestyle \u2014 surfing, boating, beach access from campus", "~$8K in-state \u2014 extraordinary value for NC residents"], cons: ["16 hours from Boston \u2014 completely inaccessible for families here", "Limited national employer reach across all majors", "Large public class sizes reduce academic intimacy", "Less strong outside marine sciences and education"], bottom_line: "Perfect for NC students seeking coastal lifestyle and low cost \u2014 wrong school for families based in the Northeast." },
+  },
+  'utampa': {
+    'business': { pros: ["90% of students receive financial aid \u2014 best scholarship availability on this list", "Plant Hall is one of the most stunning campuses in America \u2014 Gothic-Moorish castle", "Tampa Bay financial services market \u2014 Raymond James, Citigroup, Amgen recruit locally", "#13 Regional Universities South, #34 Best Value \u2014 legitimate recognition"], cons: ["3-hour flight from Boston \u2014 not practical for regular home visits", "Primarily regional Florida employer network \u2014 limited national reach", "~$58K average starting salary \u2014 lower outcomes than most private peers", "Not nationally ranked for business specifically"], bottom_line: "Best scholarship odds on the entire list \u2014 right for students seeking financial flexibility and a stunning campus in a warm market." },
+    'default': { pros: ["90% receive aid \u2014 financial accessibility is the strongest on this list", "Extraordinary Plant Hall campus \u2014 one of America's most beautiful buildings", "Tampa Bay location \u2014 growing tech, healthcare, and finance job market", "Warm weather year-round \u2014 strong quality of life"], cons: ["3 hours from Boston by flight \u2014 difficult for Northeast families", "Limited national reputation outside Florida region", "Not suitable for students targeting research or Ivy-adjacent careers", "Regional employer network caps career ceiling for most majors"], bottom_line: "Exceptional value and beautiful campus for students who want Florida lifestyle and financial flexibility \u2014 limited national reach." },
+  },
+};
+
+function getSummaryKey() {
+  const bizMajors = ['business_finance','business_accounting','business_marketing','business_mgmt','business_entrepreneurship'];
+  return bizMajors.includes(currentMajor) ? 'business' : 'default';
+}
+// ─── SCHOOL COORDINATES (lat/lng for distance calc) ────────────────────
+const SCHOOL_COORDS = {
+  bc:        [42.3355, -71.1685], // Chestnut Hill, MA
+  neu:       [42.3398, -71.0892], // Boston, MA
+  vill:      [40.0343, -75.3435], // Villanova, PA
+  lehigh:    [40.6075, -75.3784], // Bethlehem, PA
+  bu:        [42.3505, -71.1054], // Boston, MA
+  wfu:       [36.1340, -80.2779], // Winston-Salem, NC
+  syr:       [43.0389, -76.1358], // Syracuse, NY
+  bryant:    [41.7870, -71.5271], // Smithfield, RI
+  uconn:     [41.8077, -72.2540], // Storrs, CT
+  uri:       [41.4804, -71.5267], // Kingston, RI
+  pc:        [41.8385, -71.4353], // Providence, RI
+  umass:     [42.3868, -72.5301], // Amherst, MA
+  bentley:   [42.3876, -71.2215], // Waltham, MA
+  brandeis:  [42.3668, -71.2619], // Waltham, MA
+  wentworth: [42.3372, -71.1005], // Boston, MA
+  drexel:    [39.9567, -75.1893], // Philadelphia, PA
+  babson:    [42.2996, -71.2657], // Wellesley, MA
+  fordham:   [40.8607, -73.8851], // Bronx, NY
+  quinnipiac:[41.4188, -72.8986], // Hamden, CT
+  umiami:    [25.7208, -80.2792], // Coral Gables, FL
+  usc:       [34.0224, -118.2851],// Los Angeles, CA
+  elon:      [36.1028, -79.5031], // Elon, NC
+  uncw:      [34.2273, -77.8706], // Wilmington, NC
+  utampa:    [27.9477, -82.4641], // Tampa, FL
+};
+
+// Haversine formula — returns distance in miles
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+            Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ZIP code → lat/lng lookup via free geocoding (cached)
+const zipCache = {};
+async function getZipCoords(zip) {
+  if (zipCache[zip]) return zipCache[zip];
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${zip}&country=US&format=json&limit=1`);
+    const data = await res.json();
+    if (data && data[0]) {
+      const coords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      zipCache[zip] = coords;
+      return coords;
+    }
+  } catch(e) {}
+  return null;
+}
+
+let userCoords = null; // [lat, lng] after zip lookup
+let lastZip = '';
+let distanceMap = {}; // schoolId → miles
+
+async function updateZipDistance() {
+  const zip = document.getElementById('fb-zip')?.value?.trim();
+  if (!zip || zip.length < 5) { userCoords = null; distanceMap = {}; render(); return; }
+  if (zip === lastZip) return;
+  lastZip = zip;
+  const coords = await getZipCoords(zip);
+  if (coords) {
+    userCoords = coords;
+    distanceMap = {};
+    Object.entries(SCHOOL_COORDS).forEach(([id, [lat, lng]]) => {
+      distanceMap[id] = Math.round(haversineDistance(coords[0], coords[1], lat, lng));
+    });
+    render();
+  }
+}
+
+function getMaxMiles() {
+  return parseInt(document.getElementById('fb-miles')?.value || '9999');
+}
+
+function schoolPassesDistanceFilter(school) {
+  if (!userCoords) return true;
+  const maxMiles = getMaxMiles();
+  if (maxMiles >= 9999) return true;
+  const dist = distanceMap[school.id];
+  return dist !== undefined && dist <= maxMiles;
+}
+
+// ─── INFO PANEL (AI-generated) ──────────────────────────────────────────
+const infoCache = {}; // key: schoolId+majorId
+
+function openInfoPanel(schoolId) {
+  const school = SCHOOLS.find(s => s.id === schoolId);
+  if (!school) return;
+
+  // Update header
+  document.getElementById('infoPanelTitle').textContent = school.name;
+  const major = MAJORS[currentMajor] || MAJORS['business_finance'];
+  const majorLabel = major.label.replace('— ', '');
+  document.getElementById('infoPanelSub').textContent =
+    majorLabel + ' · ' + school.accept_rate + '% admit · ~$' + Math.round(school.coa_net/1000) + 'K net/yr';
+
+  // Show overlay + panel
+  document.getElementById('infoOverlay').classList.add('open');
+  document.getElementById('infoPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Check cache
+  const cacheKey = schoolId + '_' + currentMajor;
+  if (infoCache[cacheKey]) {
+    renderInfoContent(infoCache[cacheKey], school);
+    return;
+  }
+
+  // Show content immediately (no API call needed)
+  generateInfoContent(school, majorLabel, cacheKey);
+}
+
+async function generateInfoContent(school, majorLabel, cacheKey) {
+  // Use hardcoded summaries — no API call needed
+  const key = getSummaryKey();
+  const schoolSummaries = SCHOOL_SUMMARIES[school.id];
+
+  if (schoolSummaries && schoolSummaries[key]) {
+    const data = schoolSummaries[key];
+    infoCache[cacheKey] = data;
+    renderInfoContent(data, school);
+  } else {
+    // Fallback generic summary if school not found
+    const fallback = {
+      pros: [
+        'Check the school\'s official website for program-specific strengths',
+        'Review LinkedIn alumni outcomes for your target career path',
+        'Visit campus to assess fit for your learning style',
+        'Contact the admissions office for major-specific information'
+      ],
+      cons: [
+        'Summary not yet available for this school/major combination',
+        'Use the criteria scores above to compare this school',
+        'Consider scheduling an info session for personalized guidance'
+      ],
+      bottom_line: 'Use the scoring criteria and admission filters on this page to evaluate fit — visit campus for a personalized assessment.'
+    };
+    infoCache[cacheKey] = fallback;
+    renderInfoContent(fallback, school);
+  }
+}
+
+function renderInfoContent(data, school) {
+  const anyFilter = filterActive.gpa || filterActive.sat || filterActive.act;
+  let matchHtml = '';
+  if (anyFilter) {
+    const gpaOk = filterActive.gpa ? (()=>{ const [lo,hi]=getFilterRange('gpa'); return school.gpa_avg>=lo&&school.gpa_avg<=hi; })() : null;
+    const satOk = filterActive.sat ? (()=>{ const [lo,hi]=getFilterRange('sat'); return !(school.sat_lo>hi||school.sat_hi<lo); })() : null;
+    const actOk = filterActive.act ? (()=>{ const [lo,hi]=getFilterRange('act'); return !(school.act_lo>hi||school.act_hi<lo); })() : null;
+    const items = [
+      gpaOk !== null ? `<span class="info-match-item ${gpaOk?'info-match-ok':'info-match-warn'}">GPA ${gpaOk?'✅':'⚠️'} ${school.gpa_avg.toFixed(2)} avg</span>` : '',
+      satOk !== null ? `<span class="info-match-item ${satOk?'info-match-ok':'info-match-warn'}">SAT ${satOk?'✅':'⚠️'} ${school.sat_lo}–${school.sat_hi}</span>` : '',
+      actOk !== null ? `<span class="info-match-item ${actOk?'info-match-ok':'info-match-warn'}">ACT ${actOk?'✅':'⚠️'} ${school.act_lo}–${school.act_hi}</span>` : '',
+    ].filter(Boolean).join('');
+    if (items) matchHtml = '<div class="info-match-row">' + items + '</div>';
+  }
+
+  const dist = userCoords && distanceMap[school.id]
+    ? `<div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:12px;">📍 ${distanceMap[school.id]} miles from your location</div>`
+    : '';
+
+  document.getElementById('infoPanelBody').innerHTML = `
+    ${dist}
+    <div class="info-section info-pros">
+      <div class="info-section-title">✅ Pros</div>
+      <ul class="info-list">${(data.pros||[]).map(p=>`<li><span>✓</span><span>${p}</span></li>`).join('')}</ul>
+    </div>
+    <div class="info-section info-cons">
+      <div class="info-section-title">⚠️ Cons</div>
+      <ul class="info-list">${(data.cons||[]).map(p=>`<li><span>✗</span><span>${p}</span></li>`).join('')}</ul>
+    </div>
+    <div class="info-section info-bottom">
+      <div class="info-section-title">💡 Bottom Line</div>
+      <div class="info-bottom-text">${data.bottom_line||''}</div>
+    </div>
+    ${matchHtml}`;
+}
+
+function closeInfoPanel() {
+  document.getElementById('infoOverlay').classList.remove('open');
+  document.getElementById('infoPanel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+
+// ─── THEME TOGGLE ────────────────────────────────────────────────────────
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('cc-theme', newTheme);
+  updateThemeIcon(newTheme);
+  ALL_CRITERIA.forEach(cr => updateSliderStyle(cr.id));
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☀ Light mode' : '☽ Dark mode';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('cc-theme');
+  const preferred = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', preferred);
+  updateThemeIcon(preferred);
+}
+
 // ─── STATE ────────────────────────────────────────────────────────────────
 
 let currentMajor = 'business_finance';
@@ -1589,36 +2373,116 @@ function applyMajorWeights(majorId) {
 
 function changeMajor(majorId) {
   currentMajor = majorId;
-  const major = MAJORS[majorId] || MAJORS['business_finance'];
-  // Update header label
-  const lbl = document.getElementById('majorLabel');
-  if (lbl) lbl.textContent = major.label;
-  // Apply weights
   applyMajorWeights(majorId);
-  // Rebuild sidebar to reflect new weights
   buildCriteria(ALL_CRITERIA, 'criteria-primary');
-  // Clear compare
   comparing.clear();
   render();
 }
 
+const BUSINESS_MAJOR_IDS = ['business_finance','business_accounting','business_marketing','business_mgmt','business_entrepreneurship'];
+
+function isBusinessMajor() {
+  return BUSINESS_MAJOR_IDS.includes(currentMajor);
+}
+
 // ─── FILTER STATE ─────────────────────────────────────────────────────────
 
-const filterActive = { gpa: false, sat: false, act: false };
+const filterActive = { gpa: false, sat: false, act: false, tuition: false };
+let tuitionMax = 100000;
+let zipDebounce = null;
 
 function toggleFilter(type) {
   filterActive[type] = !filterActive[type];
+  const on = filterActive[type];
+
+  // Toggle button state
   const btn = document.getElementById('ftog-' + type);
-  if (btn) btn.classList.toggle('on', filterActive[type]);
-  // Grey out inputs when filter is off
-  ['fmin-' + type, 'fmax-' + type].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.opacity = filterActive[type] ? '1' : '0.4';
-  });
+  if (btn) btn.classList.toggle('on', on);
+
+  // Card active state
+  const card = document.getElementById('fb-card-' + type);
+  if (card) card.classList.toggle('active', on);
+
+  // Enable/disable inputs inside card
+  if (type === 'tuition') {
+    const sl = document.getElementById('fslider-tuition');
+    if (sl) sl.disabled = !on;
+  } else {
+    ['fmin-' + type, 'fmax-' + type].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = !on;
+    });
+  }
   render();
 }
 
-function applyFilters() { render(); }
+function onZipInput(val) {
+  const card = document.getElementById('fb-card-location');
+  if (card) card.classList.toggle('has-zip', val.length === 5);
+  applyFilters();
+}
+
+function clearAllFilters() {
+  filterActive.gpa = false; filterActive.sat = false;
+  filterActive.act = false; filterActive.tuition = false;
+
+  ['gpa','sat','act','tuition'].forEach(t => {
+    const btn = document.getElementById('ftog-' + t);
+    if (btn) btn.classList.remove('on');
+    const card = document.getElementById('fb-card-' + t);
+    if (card) card.classList.remove('active');
+    // Re-disable inputs
+    if (t === 'tuition') {
+      const sl = document.getElementById('fslider-tuition');
+      if (sl) sl.disabled = true;
+    } else {
+      ['fmin-' + t, 'fmax-' + t].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = true;
+      });
+    }
+  });
+
+  tuitionMax = 100000;
+  const sl = document.getElementById('fslider-tuition');
+  const vl = document.getElementById('fval-tuition');
+  if (sl) { sl.value = 100000; sl.style.background = 'var(--border)'; }
+  if (vl) vl.textContent = 'Any';
+
+  userCoords = null; distanceMap = {}; lastZip = '';
+  const zi = document.getElementById('fb-zip');
+  if (zi) zi.value = '';
+  const locCard = document.getElementById('fb-card-location');
+  if (locCard) locCard.classList.remove('has-zip');
+  const mi = document.getElementById('fb-miles');
+  if (mi) mi.value = '9999';
+
+  render();
+}
+
+function updateTuitionSlider(val) {
+  tuitionMax = parseInt(val);
+  const vl = document.getElementById('fval-tuition');
+  if (vl) vl.textContent = val >= 100000 ? 'Any' : '$' + (val/1000).toFixed(0) + 'K';
+  const sl = document.getElementById('fslider-tuition');
+  if (sl) {
+    const pct = ((val - 15000) / (100000 - 15000)) * 100;
+    sl.style.background = `linear-gradient(to right, #b45309 0%, #b45309 ${pct}%, var(--border) ${pct}%, var(--border) 100%)`;
+  }
+  render();
+}
+
+function applyFilters() {
+  // Debounce zip lookup
+  const zip = document.getElementById('fb-zip')?.value?.trim();
+  if (zip && zip.length === 5 && zip !== lastZip) {
+    clearTimeout(zipDebounce);
+    zipDebounce = setTimeout(() => updateZipDistance(), 600);
+  } else if (!zip || zip.length < 5) {
+    userCoords = null; distanceMap = {}; lastZip = '';
+  }
+  render();
+}
 
 function getFilterRange(type) {
   const minEl = document.getElementById('fmin-' + type);
@@ -1629,22 +2493,23 @@ function getFilterRange(type) {
 }
 
 function schoolPassesFilters(school) {
-  // GPA: school's avg GPA must be within user's range
   if (filterActive.gpa) {
     const [lo, hi] = getFilterRange('gpa');
     if (school.gpa_avg < lo || school.gpa_avg > hi) return false;
   }
-  // SAT: school's middle-50% range must OVERLAP with user's range
-  // Overlap condition: school_lo <= user_hi AND school_hi >= user_lo
   if (filterActive.sat) {
     const [lo, hi] = getFilterRange('sat');
     if (school.sat_lo > hi || school.sat_hi < lo) return false;
   }
-  // ACT: same overlap logic
   if (filterActive.act) {
     const [lo, hi] = getFilterRange('act');
     if (school.act_lo > hi || school.act_hi < lo) return false;
   }
+  if (filterActive.tuition && tuitionMax < 100000) {
+    if (school.coa_sticker > tuitionMax) return false;
+  }
+  // Distance filter
+  if (!schoolPassesDistanceFilter(school)) return false;
   return true;
 }
 
@@ -1815,6 +2680,8 @@ function buildCriteria(criteria, containerId) {
     const div = document.createElement('div');
     div.className = 'criterion' + (enabled[c.id] ? '' : ' disabled');
     div.id = 'crit-' + c.id;
+    // Auto-hide P&Q for non-business majors
+    if (c.id === 'pq_rank' && !isBusinessMajor()) return;
     const dynLabel = c.id === 'finance_rank' ? getProgramRankLabel() : c.label;
     const dynDesc  = c.id === 'finance_rank' ? getProgramRankDesc()  : c.desc;
     div.innerHTML = `
@@ -1885,6 +2752,17 @@ function updateCriterionUI(id) {
 
 // ─── RENDER RANKED LIST ──────────────────────────────────────────────────
 
+
+function tip(label, text) {
+  return '<span class="tip-wrap">' + label + '<span class="tip-icon">i</span><span class="tip-box">' + text + '</span></span>';
+}
+
+function acceptBadge(rate) {
+  if (!rate && rate !== 0) return '';
+  let cls = rate <= 15 ? 'accept-vhard' : rate <= 30 ? 'accept-hard' : rate <= 55 ? 'accept-medium' : 'accept-easy';
+  return `<span class="accept-badge ${cls}">${rate}% admit</span>`;
+}
+
 function render() {
   const ranked = getRanked();
   const list = document.getElementById('rankedList');
@@ -1894,7 +2772,7 @@ function render() {
   // Build weight summary chips
   const totalW = activeCriteria.reduce((s, c) => s + weights[c.id], 0);
   // Empty state only when no criteria AND no filters active
-  const anyFilterOn = filterActive.gpa || filterActive.sat || filterActive.act;
+  const anyFilterOn = filterActive.gpa || filterActive.sat || filterActive.act || filterActive.tuition || (userCoords && getMaxMiles() < 9999);
   if (activeCriteria.length === 0 && !anyFilterOn) {
     list.innerHTML = `
       <div style="text-align:center;padding:60px 20px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;">
@@ -1945,7 +2823,7 @@ function render() {
     </div>` : '';
 
   // Filter status line
-  const totalSchools = SCHOOLS.filter(s => schoolOffersMajor(s)).length;
+  const totalSchools = SCHOOLS.filter(s => schoolOffersMajor(s) && schoolPassesDistanceFilter(s)).length;
   const shownSchools = ranked.length;
   const filterStatus = anyFilterOn ? `
     <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:10px;padding:6px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -1954,6 +2832,8 @@ function render() {
       ${filterActive.gpa ? `<span style="color:var(--accent3)">GPA ${getFilterRange('gpa').map(v=>isFinite(v)?v:'–').join(' – ')}</span>` : ''}
       ${filterActive.sat ? `<span style="color:var(--accent3)">SAT ${getFilterRange('sat').map(v=>isFinite(v)?v:'–').join(' – ')}</span>` : ''}
       ${filterActive.act ? `<span style="color:var(--accent3)">ACT ${getFilterRange('act').map(v=>isFinite(v)?v:'–').join(' – ')}</span>` : ''}
+      ${filterActive.tuition && tuitionMax < 100000 ? `<span style="color:var(--accent3)">Max $${(tuitionMax/1000).toFixed(0)}K</span>` : ''}
+      ${userCoords && getMaxMiles() < 9999 ? `<span style="color:var(--accent3)">📍 within ${getMaxMiles()} mi</span>` : ''}
     </div>` : '';
 
   const cards = ranked.map((school, i) => {
@@ -1978,7 +2858,7 @@ function render() {
     // Admission stats row — shown when any filter is active
     const admitRow = anyFilterOn ? `
       <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Admitted middle-50%:</span>
+        ${tip('<span style="font-size:10px;color:var(--muted);font-family:\'JetBrains Mono\',monospace;">Admitted middle-50%</span>', "The range where the middle half of admitted students scored. 25% scored below the low end, 25% above the high end. Aim to be inside this range.")}:
         ${filterActive.gpa ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
           📝 GPA <strong style="color:${belowAvg.includes('GPA')?'#f59e0b':'#94a3b8'}">${school.gpa_avg.toFixed(2)} avg</strong>
           ${belowAvg.includes('GPA') ? '<span class="below-avg-badge">⚠ below avg</span>' : ''}
@@ -1990,6 +2870,10 @@ function render() {
         ${filterActive.act ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
           📏 ACT <strong style="color:${belowAvg.includes('ACT')?'#f59e0b':'#94a3b8'}">${school.act_lo}–${school.act_hi}</strong>
           ${belowAvg.includes('ACT') ? '<span class="below-avg-badge">⚠ below avg</span>' : ''}
+        </span>` : ''}
+        ${filterActive.tuition ? `<span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted2)">
+          💵 Sticker <strong style="color:var(--text)">$${(school.coa_sticker/1000).toFixed(0)}K</strong>
+          <span style="color:var(--muted);"> · net ~$${(school.coa_net/1000).toFixed(0)}K</span>
         </span>` : ''}
       </div>` : '';
 
@@ -2003,9 +2887,10 @@ function render() {
       <div class="card-top">
         <div class="rank-badge ${i===0?'top1':i===1?'top2':i===2?'top3':''}">${rankBadge(i)}</div>
         <div class="school-info">
-          <div class="school-name">${school.name}${belowAvg.length ? ' <span style="font-size:13px">⚠️</span>' : ''}</div>
+          <div class="school-name">${school.name}${acceptBadge(school.accept_rate)}${belowAvg.length ? ' <span style="font-size:13px">⚠️</span>' : ''}</div>
           <div class="school-meta">${school.location} · ${school.type}
             <span class="pill ${school.type==='Public'?'pill-green':'pill-blue'}" style="margin-left:6px">${school.type}</span>
+            ${userCoords && distanceMap[school.id] ? `<span style="margin-left:6px;font-size:10px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:600;">📍 ${distanceMap[school.id]} mi</span>` : ''}
             ${belowAvg.length ? `<span style="margin-left:6px;font-size:10px;color:#f59e0b;font-family:'JetBrains Mono',monospace">below avg ${belowAvg.join(', ')}</span>` : ''}
           </div>
         </div>
@@ -2015,6 +2900,9 @@ function render() {
         </div>
         <button class="compare-btn ${isComparing?'active':''}" onclick="toggleCompare('${school.id}',event)">
           ${isComparing ? '✓ Comparing' : '+ Compare'}
+        </button>
+        <button class="compare-btn" style="background:var(--surface2);border-color:var(--border2);color:var(--accent);font-weight:700;letter-spacing:0.5px;" onclick="openInfoPanel('${school.id}');event.stopPropagation();" title="AI-generated pros &amp; cons for this major">
+          ℹ
         </button>
       </div>
       <div class="mini-bars">${bars}</div>
@@ -2124,6 +3012,7 @@ function showView(view) {
 
 // ─── INIT ─────────────────────────────────────────────────────────────────
 
+initTheme();
 initState();
 buildCriteria(ALL_CRITERIA, 'criteria-primary');
 render();
